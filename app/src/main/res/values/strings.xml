@@ -22,6 +22,9 @@
     <string name="user_name_prompt">用户名由0–25位数字，英文、中文字符组成</string>
     <string name="user_pwd_prompt">密码由0–30位数字，英文字符组成</string>
     <string name="pwd_affirm_prompt">点击注册即表示同意《软件许可及服务协议》</string>
+    <string name="user_name_blank_prompt">用户名不能为空</string>
+    <string name="user_pwd_blank_prompt">密码不能为空</string>
+    <string name="pwd_different_prompt">两次输入的密码不一致</string>
 
     <string name="next_step">下一步</string>
 
