@@ -17,4 +17,9 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="MyEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">#B5B5B5</item>
+        <item name="colorControlActivated">#B5B5B5</item>
+    </style>
+
 </resources>

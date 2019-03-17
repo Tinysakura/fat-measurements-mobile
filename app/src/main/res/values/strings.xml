@@ -9,8 +9,20 @@
     <string name="account_pwd">密码</string>
 
     <string name="login">登录</string>
+    <string name="register">注册</string>
 
     <string name="forget_pwd_prompt"><u>忘记密码？</u></string>
     <string name="register_prompt"><u>新用户注册</u></string>
     <string name="login_prompt">登录即代表阅读并同意服务条款</string>
+
+    <string name="user_name_placeholder">请输入用户名</string>
+    <string name="user_pwd_placeholder">请输入密码</string>
+    <string name="pwd_affirm_placeholder">请确认密码</string>
+
+    <string name="user_name_prompt">用户名由0–25位数字，英文、中文字符组成</string>
+    <string name="user_pwd_prompt">密码由0–30位数字，英文字符组成</string>
+    <string name="pwd_affirm_prompt">点击注册即表示同意《软件许可及服务协议》</string>
+
+    <string name="next_step">下一步</string>
+
 </resources>
