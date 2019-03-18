@@ -1,14 +1,18 @@
 package chenfeihao.com.fat_measurements_mobile.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import chenfeihao.com.fat_measurements_mobile.R;
+import chenfeihao.com.fat_measurements_mobile.app.App;
 import chenfeihao.com.fat_measurements_mobile.constant.enums.RegisterStepEnum;
+import chenfeihao.com.fat_measurements_mobile.http.retrofit.UserHttpService;
+import chenfeihao.com.fat_measurements_mobile.pojo.dto.UserDto;
+import chenfeihao.com.fat_measurements_mobile.util.LogUtil;
 import chenfeihao.com.fat_measurements_mobile.util.StringUtil;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -30,6 +34,11 @@ public class RegisterActivity extends AppCompatActivity {
     private String userPwd;
     private String secondPwd;
 
+    /**
+     * retrofit
+     */
+    private UserHttpService userHttpService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +46,11 @@ public class RegisterActivity extends AppCompatActivity {
 
         initStep();
         initUI();
+        initUserHttpService();
+    }
+
+    private void initUserHttpService() {
+        userHttpService = ((App)getApplicationContext()).getRetrofit().create(UserHttpService.class);
     }
 
     private void initUI() {
@@ -126,7 +140,14 @@ public class RegisterActivity extends AppCompatActivity {
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                /**
+                 * 向服务端发送注册的网络请求
+                 */
+                LogUtil.V("向服务器发送用户注册信息，userName:" + userName + " " + "userPwd:" + userPwd);
+                UserDto userDto = new UserDto();
+                userDto.setUserName(userName);
+                userDto.setUserPassword(userPwd);
+                userHttpService.rigister(userDto);
             }
         });
     }

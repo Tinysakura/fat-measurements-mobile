@@ -2,6 +2,7 @@ package chenfeihao.com.fat_measurements_mobile.app;
 
 import android.app.Application;
 
+import chenfeihao.com.fat_measurements_mobile.http.constant.CommonConstant;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 
@@ -20,7 +21,7 @@ public class App extends Application {
         super.onCreate();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.github.com")
+                .baseUrl(CommonConstant.ServiceHostConstant.host)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
     }
