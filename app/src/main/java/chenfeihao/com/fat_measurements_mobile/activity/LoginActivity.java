@@ -185,6 +185,7 @@ public class LoginActivity extends AppCompatActivity {
                         MobileUser mobileUser = new MobileUser((UserDto) result.getResult(), System.currentTimeMillis() + UserInformationConstant.USER_INFORMATION_EXPIRE_TIME);
                         String userJson = JSON.toJSONString(mobileUser);
                         editor.putString("mobile_user", userJson);
+                        editor.apply();
 
                         /**
                          * 重新初始化Retrofit客户端
