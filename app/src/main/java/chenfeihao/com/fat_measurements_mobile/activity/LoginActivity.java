@@ -162,10 +162,10 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void initLoginButtonActionListener() {
         loginButton.setOnClickListener(v -> {
-            LogUtil.V("向服务器发送用户登录请求，userName:" + userName + " " + "userPwd:" + userPwd);
-
             userName = accountEditText.getText().toString();
             userPwd = pwdEditText.getText().toString();
+            LogUtil.V("向服务器发送用户登录请求，userName:" + userName + " " + "userPwd:" + userPwd);
+
             Observable<ResponseView<ResponseView<UserDto>>> loginObservable = null;
             try {
                 loginObservable = userHttpService.login(userName, userPwd);
