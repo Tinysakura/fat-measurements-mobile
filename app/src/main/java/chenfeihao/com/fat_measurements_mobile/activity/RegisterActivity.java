@@ -3,6 +3,7 @@ package chenfeihao.com.fat_measurements_mobile.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -75,6 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
         editText.setHint(R.string.user_name_placeholder);
         button.setText(R.string.next_step);
         textView.setText(R.string.user_name_prompt);
+        textView.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
         button.setOnClickListener(v -> {
             userName = editText.getText().toString();
@@ -95,6 +97,9 @@ public class RegisterActivity extends AppCompatActivity {
         editText.setHint(R.string.user_pwd_placeholder);
         button.setText(R.string.next_step);
         textView.setText(R.string.user_pwd_prompt);
+
+        // TextView中的内容设置为密文
+        textView.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
         button.setOnClickListener(v -> {
             userPwd = editText.getText().toString();
