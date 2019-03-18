@@ -60,6 +60,8 @@ public class RegisterActivity extends AppCompatActivity {
         editText = findViewById(R.id.edit_text);
         button = findViewById(R.id.button);
         textView = findViewById(R.id.text_view);
+
+        renderStep1UI();
     }
 
     private void initStep() {
