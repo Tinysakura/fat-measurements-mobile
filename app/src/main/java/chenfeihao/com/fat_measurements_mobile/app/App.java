@@ -67,7 +67,7 @@ public class App extends Application {
     }
 
 
-    private void initUserInfo() {
+    public void initUserInfo() {
         SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
         String mobileUserJsonStr = sharedPreferences.getString("mobile_user", null);
         MobileUser mobileUser = JSON.parseObject(mobileUserJsonStr, MobileUser.class);

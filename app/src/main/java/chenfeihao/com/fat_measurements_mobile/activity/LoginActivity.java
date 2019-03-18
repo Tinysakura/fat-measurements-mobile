@@ -189,6 +189,7 @@ public class LoginActivity extends AppCompatActivity {
                         /**
                          * 重新初始化Retrofit客户端
                          */
+                        ((App)getApplicationContext()).initUserInfo();
                         ((App)getApplicationContext()).initRetrofitWithUserInfo(mobileUser);
 
                         /**
