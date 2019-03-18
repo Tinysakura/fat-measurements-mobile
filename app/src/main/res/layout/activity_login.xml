@@ -68,7 +68,8 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="match_parent"
-                android:src="@mipmap/brand_image"/>
+                android:id="@+id/img_head_portrait"
+                android:src="@mipmap/default_head_portrait"/>
 
         </LinearLayout>
 
@@ -95,6 +96,9 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:id="@+id/img_show_pwd"
                 android:src="@mipmap/close_eyes"/>
         </LinearLayout>
     </LinearLayout>
@@ -122,6 +126,7 @@
             android:text="@string/forget_pwd_prompt"
             android:textColor="@color/colorBlue2"
             android:layout_alignParentStart="true"
+            android:id="@+id/forgot_pwd_intent"
             android:focusable="true" />
 
         <TextView
@@ -131,6 +136,7 @@
             android:text="@string/register_prompt"
             android:textColor="@color/colorBlue2"
             android:layout_alignParentEnd="true"
+            android:id="@+id/register_intent"
             android:focusable="true" />
     </RelativeLayout>
 

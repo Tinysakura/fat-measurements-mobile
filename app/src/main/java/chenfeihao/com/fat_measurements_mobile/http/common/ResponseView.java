@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 public class ResponseView<R> {
-    private int code = ResponseCodeEnum.OK.getCode();
+    private Integer code = ResponseCodeEnum.OK.getCode();
     private String message;
     private R result;
 }

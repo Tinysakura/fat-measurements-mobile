@@ -25,4 +25,7 @@ public interface UserHttpService {
     @Multipart
     @POST("/a/set/headportrait")
     Observable<ResponseView>  uploadHeadPortrait(@Part MultipartBody.Part headPortrait);
+
+    @GET("/a/get/headportrait")
+    Observable<ResponseView> getUserHeadPortrait(@Query("userName") String userName);
 }

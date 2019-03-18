@@ -2,7 +2,6 @@ package chenfeihao.com.fat_measurements_mobile.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -71,16 +70,13 @@ public class RegisterActivity extends AppCompatActivity {
         button.setText(R.string.next_step);
         textView.setText(R.string.user_name_prompt);
 
-        editText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userName = editText.getText().toString();
+        editText.setOnClickListener(v -> {
+            userName = editText.getText().toString();
 
-                if (!StringUtil.isEmpty(userName)) {
-                    renderStep2UI();
-                } else {
-                    textView.setText(R.string.user_name_blank_prompt);
-                }
+            if (!StringUtil.isEmpty(userName)) {
+                renderStep2UI();
+            } else {
+                textView.setText(R.string.user_name_blank_prompt);
             }
         });
     }
@@ -93,16 +89,13 @@ public class RegisterActivity extends AppCompatActivity {
         button.setText(R.string.next_step);
         textView.setText(R.string.user_pwd_prompt);
 
-        editText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userPwd = editText.getText().toString();
+        editText.setOnClickListener(v -> {
+            userPwd = editText.getText().toString();
 
-                if (!StringUtil.isEmpty(userPwd)) {
-                    renderStep3UI();
-                } else {
-                    textView.setText(R.string.user_pwd_blank_prompt);
-                }
+            if (!StringUtil.isEmpty(userPwd)) {
+                renderStep3UI();
+            } else {
+                textView.setText(R.string.user_pwd_blank_prompt);
             }
         });
     }
@@ -115,17 +108,14 @@ public class RegisterActivity extends AppCompatActivity {
         button.setText(R.string.next_step);
         textView.setText(R.string.user_pwd_prompt);
 
-        editText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                secondPwd = editText.getText().toString();
+        editText.setOnClickListener(v -> {
+            secondPwd = editText.getText().toString();
 
-                if (userPwd.equals(secondPwd)) {
-                    renderStep4UI();
-                } else {
-                    textView.setText(R.string.pwd_different_prompt);
-                    editText.getText().clear();
-                }
+            if (userPwd.equals(secondPwd)) {
+                renderStep4UI();
+            } else {
+                textView.setText(R.string.pwd_different_prompt);
+                editText.getText().clear();
             }
         });
     }
@@ -137,18 +127,15 @@ public class RegisterActivity extends AppCompatActivity {
         button.setText(R.string.register);
         textView.setText(R.string.pwd_affirm_prompt);
 
-        editText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /**
-                 * 向服务端发送注册的网络请求
-                 */
-                LogUtil.V("向服务器发送用户注册信息，userName:" + userName + " " + "userPwd:" + userPwd);
-                UserDto userDto = new UserDto();
-                userDto.setUserName(userName);
-                userDto.setUserPassword(userPwd);
-                userHttpService.rigister(userDto);
-            }
+        editText.setOnClickListener(v -> {
+            /**
+             * 向服务端发送注册的网络请求
+             */
+            LogUtil.V("向服务器发送用户注册请求，userName:" + userName + " " + "userPwd:" + userPwd);
+            UserDto userDto = new UserDto();
+            userDto.setUserName(userName);
+            userDto.setUserPassword(userPwd);
+            userHttpService.rigister(userDto);
         });
     }
 }
