@@ -122,5 +122,12 @@ public class RegisterActivity extends AppCompatActivity {
     private void renderStep4UI() {
         button.setText(R.string.register);
         textView.setText(R.string.pwd_affirm_prompt);
+
+        editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 }
