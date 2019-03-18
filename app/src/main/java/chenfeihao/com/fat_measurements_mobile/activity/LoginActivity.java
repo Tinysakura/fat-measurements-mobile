@@ -155,63 +155,60 @@ public class LoginActivity extends AppCompatActivity {
      * 为注册按钮绑定点击事件
      */
     private void initLoginButtonActionListener() {
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogUtil.V("向服务器发送用户登录请求，userName:" + userName + " " + "userPwd:" + userPwd);
+        loginButton.setOnClickListener(v -> {
+            LogUtil.V("向服务器发送用户登录请求，userName:" + userName + " " + "userPwd:" + userPwd);
 
-                userName = accountEditText.getText().toString();
-                userPwd = pwdEditText.getText().toString();
-                Observable<ResponseView> loginObservable = userHttpService.login(userName, userPwd);
+            userName = accountEditText.getText().toString();
+            userPwd = pwdEditText.getText().toString();
+            Observable<ResponseView<ResponseView<UserDto>>> loginObservable = userHttpService.login(userName, userPwd);
 
-                loginObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(responseView -> {
-                    ResponseView result = (ResponseView)responseView.getResult();
+            loginObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(responseView -> {
+                ResponseView result = (ResponseView)responseView.getResult();
+
+                /**
+                 * 通过验证的情况
+                 */
+                if (ResponseCodeEnum.OK.getCode().equals(result.getCode())) {
+                    LogUtil.V("通过验证");
+                    /**
+                     * 将用户id等相关信息持久化存储
+                     */
+                    SharedPreferences.Editor editor = getSharedPreferences("user_data", MODE_PRIVATE).edit();
+                    MobileUser mobileUser = new MobileUser((UserDto) result.getResult(), System.currentTimeMillis() + UserInformationConstant.USER_INFORMATION_EXPIRE_TIME);
+                    String userJson = JSON.toJSONString(mobileUser);
+                    editor.putString("mobile_user", userJson);
 
                     /**
-                     * 通过验证的情况
+                     * 重新初始化Retrofit客户端
                      */
-                    if (ResponseCodeEnum.OK.getCode().equals(result.getCode())) {
-                        LogUtil.V("通过验证");
-                        /**
-                         * 将用户id等相关信息持久化存储
-                         */
-                        SharedPreferences.Editor editor = getSharedPreferences("user_data", MODE_PRIVATE).edit();
-                        MobileUser mobileUser = new MobileUser((UserDto) result.getResult(), System.currentTimeMillis() + UserInformationConstant.USER_INFORMATION_EXPIRE_TIME);
-                        String userJson = JSON.toJSONString(mobileUser);
-                        editor.putString("mobile_user", userJson);
-
-                        /**
-                         * 重新初始化Retrofit客户端
-                         */
-                        ((App)getApplicationContext()).initRetrofitWithUserInfo(mobileUser);
-
-                        /**
-                         * 跳转到MainActivity
-                         */
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                    }
+                    ((App)getApplicationContext()).initRetrofitWithUserInfo(mobileUser);
 
                     /**
-                     * 用户名错误的情况
+                     * 跳转到MainActivity
                      */
-                    if (ResponseCodeEnum.NO_USER.getCode().equals(result.getCode())) {
-                        LogUtil.V("用户不存在");
-                        Toast showToast = Toast.makeText(LoginActivity.this, "无此用户，请检查输入的用户名", Toast.LENGTH_SHORT);
-                        showToast.setGravity(Gravity.CENTER, 0, 0);
-                        showToast.show();
-                    }
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
 
-                    if (ResponseCodeEnum.PWD_ERROR.getCode().equals(result.getCode())) {
-                        LogUtil.V("密码错误");
-                        Toast showToast = Toast.makeText(LoginActivity.this, "密码错误，请重新输入密码", Toast.LENGTH_SHORT);
-                        showToast.setGravity(Gravity.CENTER, 0, 0);
-                        showToast.show();
+                /**
+                 * 用户名错误的情况
+                 */
+                if (ResponseCodeEnum.NO_USER.getCode().equals(result.getCode())) {
+                    LogUtil.V("用户不存在");
+                    Toast showToast = Toast.makeText(LoginActivity.this, "无此用户，请检查输入的用户名", Toast.LENGTH_SHORT);
+                    showToast.setGravity(Gravity.CENTER, 0, 0);
+                    showToast.show();
+                }
 
-                        pwdEditText.getText().clear();
-                    }
-                });
-            }
+                if (ResponseCodeEnum.PWD_ERROR.getCode().equals(result.getCode())) {
+                    LogUtil.V("密码错误");
+                    Toast showToast = Toast.makeText(LoginActivity.this, "密码错误，请重新输入密码", Toast.LENGTH_SHORT);
+                    showToast.setGravity(Gravity.CENTER, 0, 0);
+                    showToast.show();
+
+                    pwdEditText.getText().clear();
+                }
+            });
         });
     }
 }
