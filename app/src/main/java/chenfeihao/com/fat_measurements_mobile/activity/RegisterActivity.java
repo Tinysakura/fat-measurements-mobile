@@ -3,7 +3,7 @@ package chenfeihao.com.fat_measurements_mobile.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -81,6 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             if (!StringUtil.isEmpty(userName)) {
                 renderStep2UI();
+                editText.getText().clear();
             } else {
                 textView.setText(R.string.user_name_blank_prompt);
             }
@@ -100,6 +101,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             if (!StringUtil.isEmpty(userPwd)) {
                 renderStep3UI();
+                editText.getText().clear();
             } else {
                 textView.setText(R.string.user_pwd_blank_prompt);
             }
@@ -132,6 +134,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void renderStep4UI() {
         button.setText(R.string.register);
         textView.setText(R.string.pwd_affirm_prompt);
+        editText.setVisibility(View.INVISIBLE);
 
         button.setOnClickListener(v -> {
             /**
