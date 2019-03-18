@@ -7,9 +7,12 @@ import android.content.SharedPreferences;
 import com.alibaba.fastjson.JSON;
 
 import chenfeihao.com.fat_measurements_mobile.activity.LoginActivity;
+import chenfeihao.com.fat_measurements_mobile.constant.enums.CommonCookieKeyEnum;
 import chenfeihao.com.fat_measurements_mobile.http.constant.CommonConstant;
 import chenfeihao.com.fat_measurements_mobile.pojo.bo.MobileUser;
 import chenfeihao.com.fat_measurements_mobile.util.StringUtil;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 
@@ -29,13 +32,37 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
+        initUserInfo();
+        if (mobileUser != null) {
+            initRetrofitWithUserInfo(mobileUser);
+        } else {
+            initRetrofit();
+        }
+    }
+
+    private void initRetrofit() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(CommonConstant.ServiceHostConstant.host)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
-
-        initUserInfo();
     }
+
+    public void initRetrofitWithUserInfo(MobileUser userInfo) {
+        /**
+         * 使用OkHttp过滤器统一为请求头添加用户身份标识
+         */
+        OkHttpClient.Builder builder = new OkHttpClient.Builder().addInterceptor(chain -> {
+            Request newRequest = chain.request().newBuilder().addHeader(CommonCookieKeyEnum.LOGIN_ID.getValue(), userInfo.getUserName()).build();
+            return chain.proceed(newRequest);
+        });
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(CommonConstant.ServiceHostConstant.host)
+                .client(builder.build())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+    }
+
 
     private void initUserInfo() {
         SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);

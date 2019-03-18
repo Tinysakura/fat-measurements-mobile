@@ -169,6 +169,14 @@ public class LoginActivity extends AppCompatActivity {
                         String userJson = JSON.toJSONString(mobileUser);
                         editor.putString("mobile_user", userJson);
 
+                        /**
+                         * 重新初始化Retrofit客户端
+                         */
+                        ((App)getApplicationContext()).initRetrofitWithUserInfo(mobileUser);
+
+                        /**
+                         * 跳转到MainActivity
+                         */
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                     }
