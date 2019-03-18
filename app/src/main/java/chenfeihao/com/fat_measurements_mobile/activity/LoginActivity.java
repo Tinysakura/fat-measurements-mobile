@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
 import android.text.Selection;
 import android.text.Spannable;
 import android.text.method.HideReturnsTransformationMethod;
@@ -144,7 +143,7 @@ public class LoginActivity extends AppCompatActivity {
              */
             if (!accountEditText.hasFocus() && !StringUtil.isEmpty(accountEditText.getText().toString())) {
                 userHttpService.getUserHeadPortrait(accountEditText.getText().toString()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(responseView -> {
-                    Glide.with(this).load((String) responseView.getResult()).placeholder(R.mipmap.default_head_portrait).error(R.mipmap.default_head_portrait).into(headPortraitImageView);
+                    Glide.with(this).load((String) responseView.getResult()).placeholder(R.mipmap.default_head_portrait_backup).error(R.mipmap.default_head_portrait_backup).into(headPortraitImageView);
                 });
             }
         });
