@@ -75,7 +75,7 @@ public class App extends Application {
         /**
          * 如果没有用户信息或用户信息过期则跳转到LoginActivity
          */
-        if (StringUtil.isEmpty(mobileUserJsonStr) || mobileUser == null) {
+        if (StringUtil.isEmpty(mobileUserJsonStr)) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
