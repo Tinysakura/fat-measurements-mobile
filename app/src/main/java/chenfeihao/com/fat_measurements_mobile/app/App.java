@@ -74,9 +74,11 @@ public class App extends Application {
          */
         if (StringUtil.isEmpty(mobileUserJsonStr) || mobileUser == null) {
             Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } else if (mobileUser.getValidTime().compareTo(System.currentTimeMillis()) < 0) {
             Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } else {// 否则将用户信息塞入全局变量中
             this.mobileUser = mobileUser;
