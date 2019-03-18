@@ -71,7 +71,7 @@
                 android:layout_width="30dp"
                 android:layout_height="match_parent"
                 android:id="@+id/img_head_portrait"
-                android:src="@mipmap/default_head_portrait_backup"/>
+                android:src="@mipmap/default_head_portrait"/>
 
         </LinearLayout>
 

@@ -143,7 +143,7 @@ public class LoginActivity extends AppCompatActivity {
              */
             if (!accountEditText.hasFocus() && !StringUtil.isEmpty(accountEditText.getText().toString())) {
                 userHttpService.getUserHeadPortrait(accountEditText.getText().toString()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(responseView -> {
-                    Glide.with(this).load((String) responseView.getResult()).placeholder(R.mipmap.default_head_portrait_backup).error(R.mipmap.default_head_portrait_backup).into(headPortraitImageView);
+                    Glide.with(this).load((String) responseView.getResult()).placeholder(R.mipmap.default_head_portrait).error(R.mipmap.default_head_portrait).into(headPortraitImageView);
                 });
             }
         });
