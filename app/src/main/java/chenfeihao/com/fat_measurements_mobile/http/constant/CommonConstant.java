@@ -7,6 +7,7 @@ package chenfeihao.com.fat_measurements_mobile.http.constant;
 public class CommonConstant {
 
     public class ServiceHostConstant {
-        public static final String host = "http://10.0.0.2:8080";
+        // 使用genymotion进行调试时不能使用10.0.0.2需要使用宿主机的内网ip
+        public static final String host = "http://192.168.59.1:8080";
     }
 }
