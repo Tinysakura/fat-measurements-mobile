@@ -115,10 +115,12 @@ public class LoginActivity extends AppCompatActivity {
                 //设置EditText文本为可见的
                 pwdEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 pwdShowStatus = InteractionConstant.PasswordRelatedEnum.PASSWORD_PLAINTEXT.getCode();
+                Glide.with(this).load(R.mipmap.open_eyes).into(showPwdImageView);
             } else {
                 //设置EditText文本为隐藏的
                 pwdEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 pwdShowStatus = InteractionConstant.PasswordRelatedEnum.PASSWORD_CIPHERTEXT.getCode();
+                Glide.with(this).load(R.mipmap.close_eyes).into(showPwdImageView);
             }
 
             pwdEditText.postInvalidate();
