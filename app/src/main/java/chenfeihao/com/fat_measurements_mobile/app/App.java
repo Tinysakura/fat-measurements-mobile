@@ -45,6 +45,7 @@ public class App extends Application {
         retrofit = new Retrofit.Builder()
                 .baseUrl(CommonConstant.ServiceHostConstant.host)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
 

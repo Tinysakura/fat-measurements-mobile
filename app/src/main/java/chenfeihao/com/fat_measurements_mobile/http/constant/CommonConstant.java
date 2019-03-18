@@ -7,6 +7,6 @@ package chenfeihao.com.fat_measurements_mobile.http.constant;
 public class CommonConstant {
 
     public class ServiceHostConstant {
-        public static final String host = "http://10.0.0.2:8080/";
+        public static final String host = "http://10.0.0.2:8080";
     }
 }
