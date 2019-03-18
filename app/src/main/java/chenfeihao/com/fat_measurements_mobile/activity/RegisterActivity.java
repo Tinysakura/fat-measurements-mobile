@@ -76,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
         button.setText(R.string.next_step);
         textView.setText(R.string.user_name_prompt);
 
-        editText.setOnClickListener(v -> {
+        button.setOnClickListener(v -> {
             userName = editText.getText().toString();
 
             if (!StringUtil.isEmpty(userName)) {
@@ -95,7 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
         button.setText(R.string.next_step);
         textView.setText(R.string.user_pwd_prompt);
 
-        editText.setOnClickListener(v -> {
+        button.setOnClickListener(v -> {
             userPwd = editText.getText().toString();
 
             if (!StringUtil.isEmpty(userPwd)) {
@@ -114,7 +114,7 @@ public class RegisterActivity extends AppCompatActivity {
         button.setText(R.string.next_step);
         textView.setText(R.string.user_pwd_prompt);
 
-        editText.setOnClickListener(v -> {
+        button.setOnClickListener(v -> {
             secondPwd = editText.getText().toString();
 
             if (userPwd.equals(secondPwd)) {
@@ -133,7 +133,7 @@ public class RegisterActivity extends AppCompatActivity {
         button.setText(R.string.register);
         textView.setText(R.string.pwd_affirm_prompt);
 
-        editText.setOnClickListener(v -> {
+        button.setOnClickListener(v -> {
             /**
              * 向服务端发送注册的网络请求
              */
