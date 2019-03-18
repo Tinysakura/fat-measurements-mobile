@@ -5,6 +5,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.text.Selection;
+import android.text.Spannable;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -107,18 +111,24 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void initPwdImageViewActionListener() {
         showPwdImageView.setOnClickListener(v -> {
-            /**
-             * 如果当前状态为密文显示则切换为明文显示
-             */
             if (InteractionConstant.PasswordRelatedEnum.PASSWORD_CIPHERTEXT.getCode().equals(pwdShowStatus)) {
+                //设置EditText文本为可见的
+                pwdEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 pwdShowStatus = InteractionConstant.PasswordRelatedEnum.PASSWORD_PLAINTEXT.getCode();
-                Glide.with(this).load(R.mipmap.open_eyes).into(showPwdImageView);
-                pwdEditText.setInputType(InputType.TYPE_NULL);
-            } else {// 如果当前状态为明文显示则切换为密文显示
+            } else {
+                //设置EditText文本为隐藏的
+                pwdEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 pwdShowStatus = InteractionConstant.PasswordRelatedEnum.PASSWORD_CIPHERTEXT.getCode();
-                Glide.with(this).load(R.mipmap.close_eyes).into(showPwdImageView);
-                pwdEditText.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD);
             }
+
+            pwdEditText.postInvalidate();
+            //切换后将EditText光标置于末尾
+            CharSequence charSequence = pwdEditText.getText();
+            if (charSequence instanceof Spannable) {
+                Spannable spanText = (Spannable) charSequence;
+                Selection.setSelection(spanText, charSequence.length());
+            }
+
         });
     }
 
