@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
             } else {// 如果当前状态为明文显示则切换为密文显示
                 pwdShowStatus = InteractionConstant.PasswordRelatedEnum.PASSWORD_CIPHERTEXT.getCode();
                 Glide.with(this).load(R.mipmap.close_eyes).into(showPwdImageView);
-                pwdEditText.setInputType(InputType.TYPE_NULL);
+                pwdEditText.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD);
             }
         });
     }

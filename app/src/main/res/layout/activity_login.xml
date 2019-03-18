@@ -64,6 +64,7 @@
                 android:layout_weight="6"
                 android:layout_height="match_parent"
                 android:textSize="10sp"
+                android:theme="@style/MyEditText"
                 android:id="@+id/account_input"/>
 
             <ImageView
@@ -93,6 +94,7 @@
                 android:layout_height="match_parent"
                 android:inputType="textPassword"
                 android:textSize="10sp"
+                android:theme="@style/MyEditText"
                 android:id="@+id/pwd_input"/>
 
             <ImageView
