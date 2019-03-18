@@ -17,15 +17,15 @@ import rx.Observable;
  */
 public interface UserHttpService {
     @POST("/a/register")
-    Observable<ResponseView<UserDto>> rigister(@Body UserDto userDto);
+    Observable<ResponseView<UserDto>> rigister(@Body UserDto userDto) throws Exception;
 
     @GET("/a/login")
-    Observable<ResponseView<ResponseView<UserDto>>> login(@Query("userName") String userName, @Query("userPassword") String userPassword);
+    Observable<ResponseView<ResponseView<UserDto>>> login(@Query("userName") String userName, @Query("userPassword") String userPassword) throws Exception;
 
     @Multipart
     @POST("/a/set/headportrait")
-    Observable<ResponseView<String>>  uploadHeadPortrait(@Part MultipartBody.Part headPortrait);
+    Observable<ResponseView<String>>  uploadHeadPortrait(@Part MultipartBody.Part headPortrait) throws Exception;
 
     @GET("/a/get/headportrait")
-    Observable<ResponseView<String>> getUserHeadPortrait(@Query("userName") String userName);
+    Observable<ResponseView<String>> getUserHeadPortrait(@Query("userName") String userName) throws Exception;
 }

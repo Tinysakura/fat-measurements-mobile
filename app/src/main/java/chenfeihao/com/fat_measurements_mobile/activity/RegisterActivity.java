@@ -3,6 +3,7 @@ package chenfeihao.com.fat_measurements_mobile.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -10,13 +11,11 @@ import android.widget.TextView;
 import chenfeihao.com.fat_measurements_mobile.R;
 import chenfeihao.com.fat_measurements_mobile.app.App;
 import chenfeihao.com.fat_measurements_mobile.constant.enums.RegisterStepEnum;
-import chenfeihao.com.fat_measurements_mobile.http.common.ResponseView;
 import chenfeihao.com.fat_measurements_mobile.http.retrofit.UserHttpService;
 import chenfeihao.com.fat_measurements_mobile.pojo.dto.UserDto;
 import chenfeihao.com.fat_measurements_mobile.util.LogUtil;
 import chenfeihao.com.fat_measurements_mobile.util.StringUtil;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -140,10 +139,15 @@ public class RegisterActivity extends AppCompatActivity {
             UserDto userDto = new UserDto();
             userDto.setUserName(userName);
             userDto.setUserPassword(userPwd);
-            userHttpService.rigister(userDto).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(userDtoResponseView -> {
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(intent);
-            });
+            try {
+                userHttpService.rigister(userDto).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(userDtoResponseView -> {
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                });
+            } catch (Exception e) {
+                LogUtil.V("注册失败");
+                e.printStackTrace();
+            }
 
         });
     }
