@@ -72,7 +72,10 @@ public class App extends Application {
         /**
          * 如果没有用户信息或用户信息过期则跳转到LoginActivity
          */
-        if (StringUtil.isEmpty(mobileUserJsonStr) || mobileUser.getValidTime().compareTo(System.currentTimeMillis()) < 0) {
+        if (StringUtil.isEmpty(mobileUserJsonStr) || mobileUser == null) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        } else if (mobileUser.getValidTime().compareTo(System.currentTimeMillis()) < 0) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         } else {// 否则将用户信息塞入全局变量中
