@@ -23,6 +23,7 @@ import chenfeihao.com.fat_measurements_mobile.pojo.bo.MobileUser;
 import chenfeihao.com.fat_measurements_mobile.pojo.dto.UserDto;
 import chenfeihao.com.fat_measurements_mobile.util.DensityUtil;
 import chenfeihao.com.fat_measurements_mobile.util.LogUtil;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
@@ -140,12 +141,7 @@ public class UserInformationActivity extends AppCompatActivity {
         userDto.setUserPassword(alterUserPwdEditText.getText().toString());
 
         try {
-            userHttpService.updateUserInfo(userDto).observeOn(Schedulers.io()).subscribe(new Action1<ResponseView<String>>() {
-                @Override
-                public void call(ResponseView<String> stringResponseView) {
-                    LogUtil.V("用户信息更新成功");
-                }
-            });
+            userHttpService.updateUserInfo(userDto).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(stringResponseView -> LogUtil.V("用户信息更新成功"));
 
             SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
             String mobileUserJsonStr = sharedPreferences.getString("mobile_user", null);
