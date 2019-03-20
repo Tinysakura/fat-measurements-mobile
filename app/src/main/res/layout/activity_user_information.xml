@@ -26,7 +26,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:driver="@drawable/underline">
+            android:showDividers="middle|beginning|end"
+            android:divider="@drawable/underline">
 
             <TextView
                 android:layout_width="0dp"
