@@ -15,6 +15,7 @@ import chenfeihao.com.fat_measurements_mobile.custom.layout.TitleLayout;
 import chenfeihao.com.fat_measurements_mobile.http.retrofit.UserHttpService;
 import chenfeihao.com.fat_measurements_mobile.pojo.bo.MobileUser;
 import chenfeihao.com.fat_measurements_mobile.pojo.dto.UserDto;
+import chenfeihao.com.fat_measurements_mobile.util.DensityUtil;
 import chenfeihao.com.fat_measurements_mobile.util.LogUtil;
 
 public class UserInformationActivity extends AppCompatActivity {
@@ -65,7 +66,7 @@ public class UserInformationActivity extends AppCompatActivity {
 
         alterUserHeadPortraitTextView.setOnClickListener(v -> {
             PopupWindow selectPicPopWindow = new SelectPicPopWindow(UserInformationActivity.this, null);
-            selectPicPopWindow.showAtLocation(findViewById(R.id.activity_user_information), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+            selectPicPopWindow.showAtLocation(findViewById(R.id.activity_user_information), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, DensityUtil.getBottomBarHeight(this) + 20);
         });
     }
 
