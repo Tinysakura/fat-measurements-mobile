@@ -54,7 +54,7 @@ public class App extends Application {
          * 使用OkHttp过滤器统一为请求头添加用户身份标识
          */
         OkHttpClient.Builder builder = new OkHttpClient.Builder().addInterceptor(chain -> {
-            Request newRequest = chain.request().newBuilder().addHeader(CommonCookieKeyEnum.LOGIN_ID.getValue(), userInfo.getUserName()).build();
+            Request newRequest = chain.request().newBuilder().addHeader(CommonCookieKeyEnum.LOGIN_ID.getValue(), String.valueOf(userInfo.getId())).build();
             return chain.proceed(newRequest);
         });
 
