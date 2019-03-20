@@ -66,7 +66,7 @@ public class UserInformationActivity extends AppCompatActivity {
 
         alterUserHeadPortraitTextView.setOnClickListener(v -> {
             PopupWindow selectPicPopWindow = new SelectPicPopWindow(UserInformationActivity.this, null);
-            selectPicPopWindow.showAtLocation(findViewById(R.id.activity_user_information), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, DensityUtil.getBottomBarHeight(this) + 20);
+            selectPicPopWindow.showAtLocation(findViewById(R.id.activity_user_information), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, DensityUtil.getBottomBarHeight(this) + 15);
         });
     }
 
