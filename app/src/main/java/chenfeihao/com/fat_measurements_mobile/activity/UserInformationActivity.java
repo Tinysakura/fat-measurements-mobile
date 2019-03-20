@@ -64,7 +64,7 @@ public class UserInformationActivity extends AppCompatActivity {
         alterUserSignatureEditText.setText(mobileUser.getSignature());
 
         alterUserHeadPortraitTextView.setOnClickListener(v -> {
-            PopupWindow selectPicPopWindow = new SelectPicPopWindow(this, null);
+            PopupWindow selectPicPopWindow = new SelectPicPopWindow(UserInformationActivity.this, null);
             selectPicPopWindow.showAtLocation(findViewById(R.id.activity_user_information), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
         });
     }

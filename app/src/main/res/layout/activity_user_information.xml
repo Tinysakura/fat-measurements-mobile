@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     android:background="@color/colorGray1"
     tools:context=".activity.UserInformationActivity"
-    android:id="@+id/activity_user_information">
+    android:id="@+id/activity_user_information"
+    android:focusable="true"
+    android:focusableInTouchMode="true" >
 
     <chenfeihao.com.fat_measurements_mobile.custom.layout.TitleLayout
         android:layout_width="match_parent"
