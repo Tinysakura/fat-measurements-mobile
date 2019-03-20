@@ -90,9 +90,12 @@ public class UserInformationActivity extends AppCompatActivity {
             dialog.setMessage("确定要保存编辑的内容吗?");
             dialog.setCancelable(false);
 
-            dialog.setPositiveButton("确定", (dialog1, which) -> saveEditUserInfo());
-
-            dialog.setNegativeButton("放弃", (dialog12, which) -> dialog12.cancel());
+            dialog.setPositiveButton("确定", (dialog1, which) -> {
+                saveEditUserInfo();
+                dialog1.dismiss();
+                finish();
+            });
+            dialog.setNegativeButton("放弃", (dialog2, which) -> dialog2.dismiss());
 
             dialog.show();
         });
