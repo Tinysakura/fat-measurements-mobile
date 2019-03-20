@@ -4,11 +4,22 @@
         <item
             android:id="@+id/nav_user"
             android:icon="@mipmap/user"
-            android:title="我" />
+            android:title="@string/nav_user" />
 
-        <!--<item-->
-            <!--android:id="@+id/nav_data"-->
-            <!--android:icon="@mipmap/"-->
+        <item
+            android:id="@+id/nav_data"
+            android:icon="@mipmap/data"
+            android:title="@string/nav_data" />
+
+        <item
+            android:id="@+id/nav_account"
+            android:icon="@mipmap/account"
+            android:title="@string/nav_account" />
+
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@mipmap/setting"
+            android:title="@string/nav_setting" />
     </group>
 
 </menu>

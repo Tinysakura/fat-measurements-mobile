@@ -25,7 +25,13 @@
     <string name="user_name_blank_prompt">用户名不能为空</string>
     <string name="user_pwd_blank_prompt">密码不能为空</string>
     <string name="pwd_different_prompt">两次输入的密码不一致</string>
-
     <string name="next_step">下一步</string>
+
+    <string name="nav_user">我</string>
+    <string name="nav_data">数据</string>
+    <string name="nav_account">账户</string>
+    <string name="nav_setting">设置</string>
+    <string name="nav_default_personal_signature">写一句话记录你的心情吧~</string>
+    <string name="nav_default_user_name">未命名用户</string>
 
 </resources>
