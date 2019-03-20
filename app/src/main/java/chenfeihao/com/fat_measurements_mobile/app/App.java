@@ -75,7 +75,7 @@ public class App extends Application {
         /**
          * 用户签名
          */
-        SharedPreferences signatureSharedPreferences = getSharedPreferences("user_signature", MODE_PRIVATE);
+        SharedPreferences signatureSharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
         mobileUser.setSignature(signatureSharedPreferences.getString("user_signature", null));
 
         /**

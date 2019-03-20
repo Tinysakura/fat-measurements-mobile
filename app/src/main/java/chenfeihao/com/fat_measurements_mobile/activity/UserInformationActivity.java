@@ -1,12 +1,15 @@
 package chenfeihao.com.fat_measurements_mobile.activity;
 
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
+import com.alibaba.fastjson.JSON;
 
 import chenfeihao.com.fat_measurements_mobile.R;
 import chenfeihao.com.fat_measurements_mobile.app.App;
@@ -37,6 +40,11 @@ public class UserInformationActivity extends AppCompatActivity {
      */
     UserHttpService userHttpService;
 
+    /**
+     * data
+     */
+    private String headPortraitUrl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,9 +72,27 @@ public class UserInformationActivity extends AppCompatActivity {
         alterUserPwdEditText.setText(mobileUser.getUserPassword());
         alterUserSignatureEditText.setText(mobileUser.getSignature());
 
+        initAlterUserHeadPortraitTextViewListener();
+        initAlterUserSignatureEditTextListener();
+    }
+
+    private void initAlterUserHeadPortraitTextViewListener() {
         alterUserHeadPortraitTextView.setOnClickListener(v -> {
             PopupWindow selectPicPopWindow = new SelectPicPopWindow(UserInformationActivity.this, null);
             selectPicPopWindow.showAtLocation(findViewById(R.id.activity_user_information), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, DensityUtil.getBottomBarHeight(this) + 15);
+        });
+    }
+
+    private void initAlterUserSignatureEditTextListener() {
+        alterUserSignatureEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!alterUserSignatureEditText.hasFocus()) {
+                    SharedPreferences.Editor sharedPreferences = getSharedPreferences("user_signature", MODE_PRIVATE).edit();
+                    sharedPreferences.putString("user_signature", alterUserSignatureEditText.getText().toString());
+                    sharedPreferences.apply();
+                }
+            }
         });
     }
 
@@ -85,6 +111,19 @@ public class UserInformationActivity extends AppCompatActivity {
 
         try {
             userHttpService.updateUserInfo(userDto);
+
+            SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
+            String mobileUserJsonStr = sharedPreferences.getString("mobile_user", null);
+
+            MobileUser oldUserInfo = JSON.parseObject(mobileUserJsonStr, MobileUser.class);
+            oldUserInfo.setUserName(alterUserNameEditText.getText().toString());
+            oldUserInfo.setUserPassword(alterUserPwdEditText.getText().toString());
+            oldUserInfo.setUserHeadPortrait(headPortraitUrl);
+
+            SharedPreferences.Editor userDataEditor = getSharedPreferences("user_data", MODE_PRIVATE).edit();
+            userDataEditor.putString("mobile_user", JSON.toJSONString(oldUserInfo));
+
+            getApp().initUserInfo();
             LogUtil.V("用户信息更新成功");
         } catch (Exception e) {
             LogUtil.V("用户信息更新失败");
