@@ -62,7 +62,7 @@ public class SelectPicPopWindow extends PopupWindow {
         this.setAnimationStyle(R.style.animTranslate);
 
         if (hasNavBar(context)) {
-            hideBottomUIMenu(context);
+            // hideBottomUIMenu(context);
         }
 
         //mMenuView添加OnTouchListener监听判断获取触屏位置如果在选择框外面则销毁弹出框
@@ -75,7 +75,7 @@ public class SelectPicPopWindow extends PopupWindow {
                 if(event.getAction()==MotionEvent.ACTION_UP){
                     if(y<height){
                         dismiss();
-                        showBottomUIMenu(context);
+                        // showBottomUIMenu(context);
                     }
                 }
                 return true;
@@ -88,7 +88,7 @@ public class SelectPicPopWindow extends PopupWindow {
              * 取消选择按钮将销毁弹出框
              */
             dismiss();
-            showBottomUIMenu(context);
+            // showBottomUIMenu(context);
         });
 
     }
