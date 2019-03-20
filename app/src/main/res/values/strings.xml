@@ -40,5 +40,6 @@
     <string name="pic_from_storage">从相册选择</string>
     <string name="pic_from_camera">拍照</string>
     <string name="pic_from_cancel">取消</string>
+    <string name="save_edit_user_info">保存</string>
 
 </resources>

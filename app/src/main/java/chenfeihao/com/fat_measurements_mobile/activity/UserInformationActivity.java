@@ -1,7 +1,9 @@
 package chenfeihao.com.fat_measurements_mobile.activity;
 
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
@@ -35,6 +37,8 @@ public class UserInformationActivity extends AppCompatActivity {
 
     private TextView alterUserHeadPortraitTextView;
 
+    private TextView saveEditUserInfoTextView;
+
     /**
      * retrofit
      */
@@ -66,6 +70,7 @@ public class UserInformationActivity extends AppCompatActivity {
         alterUserSignatureEditText = findViewById(R.id.alter_user_signature);
         alterUserPwdEditText = findViewById(R.id.alter_user_pwd);
         alterUserHeadPortraitTextView = findViewById(R.id.alter_user_head_portrait);
+        saveEditUserInfoTextView = findViewById(R.id.save_edit_user_info);
 
         MobileUser mobileUser = getApp().getMobileUser();
         alterUserNameEditText.setText(mobileUser.getUserName());
@@ -73,7 +78,24 @@ public class UserInformationActivity extends AppCompatActivity {
         alterUserSignatureEditText.setText(mobileUser.getSignature());
 
         initAlterUserHeadPortraitTextViewListener();
-        initAlterUserSignatureEditTextListener();
+        initSaveEditUserInfoTextViewListener();
+        // initAlterUserSignatureEditTextListener();
+    }
+
+    private void initSaveEditUserInfoTextViewListener() {
+        saveEditUserInfoTextView.setOnClickListener(view -> {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+            dialog.setTitle("提示");
+            dialog.setMessage("确定要保存编辑的内容吗?");
+            dialog.setCancelable(false);
+
+            dialog.setPositiveButton("确定", (dialog1, which) -> saveEditUserInfo());
+
+            dialog.setNegativeButton("放弃", (dialog12, which) -> dialog12.cancel());
+
+            dialog.show();
+        });
     }
 
     private void initAlterUserHeadPortraitTextViewListener() {
@@ -96,12 +118,14 @@ public class UserInformationActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * 在onPause生命周期中将修改同步到服务端
-     */
-    @Override
-    protected void onPause() {
-        super.onPause();
+    private void updatePersonalSignature() {
+        SharedPreferences.Editor sharedPreferences = getSharedPreferences("user_signature", MODE_PRIVATE).edit();
+        sharedPreferences.putString("user_signature", alterUserSignatureEditText.getText().toString());
+        sharedPreferences.apply();
+    }
+
+    private void saveEditUserInfo() {
+        updatePersonalSignature();
 
         MobileUser mobileUser = getApp().getMobileUser();
         UserDto userDto = new UserDto();
