@@ -111,6 +111,7 @@ public class SelectPicPopWindow extends PopupWindow {
 
         // must be executed in main thread :)
         ((Activity)context).getWindow().getDecorView().setSystemUiVisibility(flags);
+        ((Activity)context).getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
     }
 
     /**
