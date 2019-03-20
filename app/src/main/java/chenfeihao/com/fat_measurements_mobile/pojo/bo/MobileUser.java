@@ -9,6 +9,10 @@ import chenfeihao.com.fat_measurements_mobile.pojo.dto.UserDto;
  */
 public class MobileUser extends UserDto {
     private Long validTime;
+    /**
+     * 个性签名，只保存在移动端
+     */
+    private String signature;
 
     public MobileUser(UserDto userDto, Long validTime) {
         this.setId(userDto.getId());
@@ -27,5 +31,13 @@ public class MobileUser extends UserDto {
 
     public void setValidTime(Long validTime) {
         this.validTime = validTime;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
     }
 }

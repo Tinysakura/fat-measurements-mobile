@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorGray1"
-    tools:context=".activity.UserInformationActivity">
+    tools:context=".activity.UserInformationActivity"
+    android:id="@+id/activity_user_information">
 
     <chenfeihao.com.fat_measurements_mobile.custom.layout.TitleLayout
         android:layout_width="match_parent"
@@ -25,26 +26,6 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:showDividers="middle|beginning|end"
-            android:divider="@drawable/underline">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="@string/account_name"/>
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_weight="9"
-                android:layout_height="wrap_content"
-                android:id="@+id/alter_user_name"
-                android:background="@null"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
             android:layout_height="30dp">
 
             <TextView
@@ -57,7 +38,32 @@
                 android:layout_width="0dp"
                 android:layout_weight="9"
                 android:layout_height="wrap_content"
+                android:id="@+id/alter_user_name"
+                android:theme="@style/MyEditText"
+                android:background="@null"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1sp"
+            android:background="@color/colorGray1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/account_signature"/>
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="9"
+                android:layout_height="wrap_content"
                 android:id="@+id/alter_user_signature"
+                android:theme="@style/MyEditText"
                 android:background="@null"/>
         </LinearLayout>
     </LinearLayout>
@@ -86,6 +92,8 @@
                 android:layout_weight="9"
                 android:layout_height="wrap_content"
                 android:id="@+id/alter_user_pwd"
+                android:theme="@style/MyEditText"
+                android:inputType="textPassword"
                 android:background="@null"/>
         </LinearLayout>
     </LinearLayout>
@@ -103,17 +111,13 @@
             android:layout_height="30dp">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="@string/account_head_portrait"/>
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_weight="9"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left|center"
                 android:id="@+id/alter_user_head_portrait"
-                android:background="@null"/>
+                android:clickable="true"
+                android:text="@string/account_head_portrait"
+                android:focusable="true" />
         </LinearLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

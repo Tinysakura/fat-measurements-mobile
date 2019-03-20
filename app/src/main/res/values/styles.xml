@@ -22,4 +22,10 @@
         <item name="colorControlActivated">#B5B5B5</item>
     </style>
 
+    <style name="animTranslate">
+        <item name="android:windowEnterAnimation">@anim/popwindow_in</item>
+        <item name="android:windowExitAnimation">@anim/popwindow_out</item>
+    </style>
+
+
 </resources>

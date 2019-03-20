@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorGray1"
+    android:layout_height="130dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="vertical"
+        android:background="@color/colorWhite"
+        android:id="@+id/pic_from_select">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:id="@+id/pic_from_camera"
+            android:text="@string/pic_from_camera"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:id="@+id/pic_from_storage"
+            android:text="@string/pic_from_storage"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorWhite"
+        app:layout_constraintTop_toBottomOf="@+id/pic_from_select">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:id="@+id/pic_from_cancel"
+            android:text="@string/pic_from_cancel"/>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

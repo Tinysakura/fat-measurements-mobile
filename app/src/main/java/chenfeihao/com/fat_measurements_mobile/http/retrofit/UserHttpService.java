@@ -28,4 +28,7 @@ public interface UserHttpService {
 
     @GET("/a/get/headportrait")
     Observable<ResponseView<String>> getUserHeadPortrait(@Query("userName") String userName) throws Exception;
+
+    @POST("/a/update/user/info")
+    Observable<ResponseView<String>> updateUserInfo(@Body UserDto userDto) throws Exception;
 }

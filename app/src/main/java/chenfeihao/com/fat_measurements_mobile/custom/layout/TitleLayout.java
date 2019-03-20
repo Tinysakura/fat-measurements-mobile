@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.jar.Attributes;
-
 import chenfeihao.com.fat_measurements_mobile.R;
 
 /**
@@ -25,7 +23,7 @@ public class TitleLayout extends LinearLayout {
 
     public TitleLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        LayoutInflater.from(context).inflate(R.layout.custom_title, this);
+        LayoutInflater.from(context).inflate(R.layout.layout_custom_title, this);
 
         initUI();
     }

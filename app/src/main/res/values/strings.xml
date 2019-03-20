@@ -8,6 +8,7 @@
     <string name="account_name">账号</string>
     <string name="account_pwd">密码</string>
     <string name="account_head_portrait">头像</string>
+    <string name="account_signature">签名</string>
 
     <string name="login">登录</string>
     <string name="register">注册</string>
@@ -35,5 +36,9 @@
     <string name="nav_default_personal_signature">写一句话记录你的心情吧~</string>
     <string name="nav_default_user_name">未命名用户</string>
     <string name="custom_title_back"><![CDATA[< 返回]]></string>
+
+    <string name="pic_from_storage">从相册选择</string>
+    <string name="pic_from_camera">拍照</string>
+    <string name="pic_from_cancel">取消</string>
 
 </resources>
