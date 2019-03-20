@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import chenfeihao.com.fat_measurements_mobile.R;
 import chenfeihao.com.fat_measurements_mobile.app.App;
 import chenfeihao.com.fat_measurements_mobile.constant.UserInformationConstant;
 import chenfeihao.com.fat_measurements_mobile.pojo.bo.MobileUser;
+import chenfeihao.com.fat_measurements_mobile.util.LogUtil;
 import chenfeihao.com.fat_measurements_mobile.util.StringUtil;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -29,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private NavigationView navigationView;
 
-    private View navHeaderView;
+    // private View navHeaderView;
 
     private CircleImageView navHeadPortraitCircleImageView;
 
@@ -51,11 +53,11 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setCheckedItem(R.id.nav_data);
 
         LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        navHeaderView = inflater.inflate(R.layout.layout_nav_header, null);
+        // navHeaderView = inflater.inflate(R.layout.layout_nav_header, findViewById(R.id.content));
 
-        navHeadPortraitCircleImageView = navHeaderView.findViewById(R.id.nav_head_portrait);
-        navUserNameTextView = navHeaderView.findViewById(R.id.nav_user_name);
-        navUserSignatureTextView = navHeaderView.findViewById(R.id.nav_personal_signature);
+        navHeadPortraitCircleImageView = navigationView.findViewById(R.id.nav_head_portrait);
+        navUserNameTextView = navigationView.findViewById(R.id.nav_user_name);
+        navUserSignatureTextView = navigationView.findViewById(R.id.nav_personal_signature);
         // renderNavHeaderView();
 
         initNavigationViewListener();
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
      * 渲染侧拉边栏头部信息
      */
     private void renderNavHeaderView() {
+        LogUtil.V("渲染侧拉边栏头部");
         MobileUser mobileUser = getApp().getMobileUser();
         navUserNameTextView.setText(mobileUser.getUserName());
         navUserSignatureTextView.setText(mobileUser.getSignature());
