@@ -74,10 +74,13 @@ public class MainActivity extends AppCompatActivity {
         LogUtil.V("渲染侧拉边栏头部");
         MobileUser mobileUser = getApp().getMobileUser();
         navUserNameTextView.setText(mobileUser.getUserName());
-        navUserSignatureTextView.setText(mobileUser.getSignature());
 
         if (!StringUtil.isEmpty(mobileUser.getUserHeadPortrait())) {
             Glide.with(this).load(mobileUser.getUserHeadPortrait()).into(navHeadPortraitCircleImageView);
+        }
+
+        if (!StringUtil.isEmpty(mobileUser.getSignature())) {
+            navUserSignatureTextView.setText(mobileUser.getSignature());
         }
     }
 
