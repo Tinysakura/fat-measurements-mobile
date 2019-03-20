@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         navHeadPortraitCircleImageView = navHeaderView.findViewById(R.id.nav_head_portrait);
         navUserNameTextView = navHeaderView.findViewById(R.id.nav_user_name);
         navUserSignatureTextView = navHeaderView.findViewById(R.id.nav_personal_signature);
-        renderNavHeaderView();
+        // renderNavHeaderView();
 
         initNavigationViewListener();
     }
