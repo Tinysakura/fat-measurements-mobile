@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private NavigationView navigationView;
 
-    // private View navHeaderView;
+    private View navHeaderView;
 
     private CircleImageView navHeadPortraitCircleImageView;
 
@@ -53,11 +53,15 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setCheckedItem(R.id.nav_data);
 
         LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        // navHeaderView = inflater.inflate(R.layout.layout_nav_header, findViewById(R.id.content));
+        navHeaderView = navigationView.getHeaderView(0);
 
-        navHeadPortraitCircleImageView = navigationView.findViewById(R.id.nav_head_portrait);
-        navUserNameTextView = navigationView.findViewById(R.id.nav_user_name);
-        navUserSignatureTextView = navigationView.findViewById(R.id.nav_personal_signature);
+        if (navHeaderView == null) {
+            navHeaderView = navigationView.inflateHeaderView(R.layout.layout_nav_header);
+        }
+
+        navHeadPortraitCircleImageView = navHeaderView.findViewById(R.id.nav_head_portrait);
+        navUserNameTextView = navHeaderView.findViewById(R.id.nav_user_name);
+        navUserSignatureTextView = navHeaderView.findViewById(R.id.nav_personal_signature);
         // renderNavHeaderView();
 
         initNavigationViewListener();
