@@ -122,7 +122,7 @@ public class UserInformationActivity extends AppCompatActivity {
     }
 
     private void updatePersonalSignature() {
-        SharedPreferences.Editor sharedPreferences = getSharedPreferences("user_signature", MODE_PRIVATE).edit();
+        SharedPreferences.Editor sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE).edit();
         sharedPreferences.putString("user_signature", alterUserSignatureEditText.getText().toString());
         sharedPreferences.apply();
     }
@@ -149,6 +149,7 @@ public class UserInformationActivity extends AppCompatActivity {
 
             SharedPreferences.Editor userDataEditor = getSharedPreferences("user_data", MODE_PRIVATE).edit();
             userDataEditor.putString("mobile_user", JSON.toJSONString(oldUserInfo));
+            userDataEditor.apply();
 
             getApp().initUserInfo();
             LogUtil.V("用户信息更新成功");
