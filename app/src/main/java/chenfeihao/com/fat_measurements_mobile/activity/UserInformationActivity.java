@@ -254,7 +254,7 @@ public class UserInformationActivity extends AppCompatActivity {
                 /**
                  * 将拍摄的照片上传给服务端
                  */
-                if (requestCode == RESULT_OK) {
+                if (resultCode == RESULT_OK) {
                     uploadFile2Server(imageUri);
                 }
                 break;
