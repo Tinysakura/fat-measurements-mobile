@@ -71,6 +71,12 @@ public class App extends Application {
         SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
         String mobileUserJsonStr = sharedPreferences.getString("mobile_user", null);
 
+        MobileUser mobileUser = JSON.parseObject(mobileUserJsonStr, MobileUser.class);
+        /**
+         * 用户签名
+         */
+        mobileUser.setSignature(sharedPreferences.getString("user_signature", null));
+
         /**
          * 如果没有用户信息或用户信息过期则跳转到LoginActivity
          */
@@ -83,12 +89,6 @@ public class App extends Application {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         } else {// 否则将用户信息塞入全局变量中
-            MobileUser mobileUser = JSON.parseObject(mobileUserJsonStr, MobileUser.class);
-            /**
-             * 用户签名
-             */
-            mobileUser.setSignature(sharedPreferences.getString("user_signature", null));
-
             this.mobileUser = mobileUser;
         }
 

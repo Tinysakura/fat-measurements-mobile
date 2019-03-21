@@ -7,12 +7,15 @@ import android.widget.TextView;
 
 import chenfeihao.com.fat_measurements_mobile.R;
 import chenfeihao.com.fat_measurements_mobile.app.App;
+import chenfeihao.com.fat_measurements_mobile.custom.layout.TitleLayout;
 
 public class SettingActivity extends AppCompatActivity {
     /**
      * UI
      */
     private TextView settingLogOutTextView;
+
+    private TitleLayout customTitle;
 
 
     @Override
@@ -22,6 +25,8 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void initUI() {
+        customTitle = findViewById(R.id.setting_custom_title);
+        customTitle.setTitle("设置");
         settingLogOutTextView = findViewById(R.id.setting_log_out);
 
         initSettingLogOutTextViewListener();
