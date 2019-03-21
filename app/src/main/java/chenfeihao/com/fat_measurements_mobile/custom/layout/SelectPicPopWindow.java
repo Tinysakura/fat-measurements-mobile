@@ -17,6 +17,7 @@ import android.widget.TextView;
 import java.lang.reflect.Method;
 
 import chenfeihao.com.fat_measurements_mobile.R;
+import chenfeihao.com.fat_measurements_mobile.custom.listener.SelectPicListener;
 
 /**
  * 图片选择PopWindow
@@ -33,10 +34,19 @@ public class SelectPicPopWindow extends PopupWindow {
 
     private TextView picFromCancelTextView;
 
+    /**
+     * Listener
+     */
+    private SelectPicListener selectPicListener;
+
     public SelectPicPopWindow(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         initUI(context);
+    }
+
+    public void setSelectPicListener(SelectPicListener selectPicListener) {
+        this.selectPicListener = selectPicListener;
     }
 
     private void initUI(Context context) {
@@ -82,7 +92,12 @@ public class SelectPicPopWindow extends PopupWindow {
             }
         });
 
+        initPicFromCancelTextViewListener();
 
+        initSelectPicFromAnyListener();
+    }
+
+    private void initPicFromCancelTextViewListener() {
         picFromCancelTextView.setOnClickListener(view -> {
             /**
              * 取消选择按钮将销毁弹出框
@@ -90,7 +105,16 @@ public class SelectPicPopWindow extends PopupWindow {
             dismiss();
             // showBottomUIMenu(context);
         });
+    }
 
+    private void initSelectPicFromAnyListener() {
+        picFromCameraTextView.setOnClickListener(v -> {
+            selectPicListener.selectPicFromCameraListener();
+        });
+
+        picFromCameraTextView.setOnClickListener(v -> {
+            selectPicListener.selectPicFromStorageListener();
+        });
     }
 
     protected void hideBottomUIMenu(Context context){
