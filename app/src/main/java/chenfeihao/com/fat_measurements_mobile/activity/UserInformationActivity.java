@@ -303,6 +303,21 @@ public class UserInformationActivity extends AppCompatActivity {
             userHttpService.uploadHeadPortrait(requestImgPart).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(stringResponseView -> {
                 headPortraitUrl = stringResponseView.getResult();
                 LogUtil.V("头像上传成功");
+
+                /**
+                 * 更新本地头像
+                 */
+                SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
+                String mobileUserJsonStr = sharedPreferences.getString("mobile_user", null);
+
+                MobileUser oldUserInfo = JSON.parseObject(mobileUserJsonStr, MobileUser.class);
+                oldUserInfo.setUserHeadPortrait(headPortraitUrl);
+
+                SharedPreferences.Editor userDataEditor = getSharedPreferences("user_data", MODE_PRIVATE).edit();
+                userDataEditor.putString("mobile_user", JSON.toJSONString(oldUserInfo));
+                userDataEditor.apply();
+
+                getApp().initUserInfo();
             });
         } catch (Exception e) {
             e.printStackTrace();
