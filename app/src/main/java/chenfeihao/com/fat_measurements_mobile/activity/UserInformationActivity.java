@@ -291,7 +291,8 @@ public class UserInformationActivity extends AppCompatActivity {
 
     private void uploadFile2Server(Uri uri) {
         // OutputStream outputStream = getContentResolver().openOutputStream(uri);
-        File file = new File(UriPathSwitchUtil.getPathByUri4kitkat(this, uri));
+        String realPath = UriPathSwitchUtil.getPathByUri4kitkat(this, uri);
+        File file = new File(realPath);
         // 创建RequestBody，传入参数："multipart/form-data"，File
         RequestBody fileRequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
 
