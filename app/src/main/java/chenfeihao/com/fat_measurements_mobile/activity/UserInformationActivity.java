@@ -44,6 +44,7 @@ import chenfeihao.com.fat_measurements_mobile.pojo.bo.MobileUser;
 import chenfeihao.com.fat_measurements_mobile.pojo.dto.UserDto;
 import chenfeihao.com.fat_measurements_mobile.util.DensityUtil;
 import chenfeihao.com.fat_measurements_mobile.util.LogUtil;
+import chenfeihao.com.fat_measurements_mobile.util.UriPathSwitchUtil;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -290,7 +291,7 @@ public class UserInformationActivity extends AppCompatActivity {
 
     private void uploadFile2Server(Uri uri) {
         // OutputStream outputStream = getContentResolver().openOutputStream(uri);
-        File file = new File(getRealPathFromURI(this, uri));
+        File file = new File(UriPathSwitchUtil.getPathByUri4kitkat(this, uri));
         // 创建RequestBody，传入参数："multipart/form-data"，File
         RequestBody fileRequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
 
