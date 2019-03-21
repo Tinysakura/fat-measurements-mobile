@@ -73,6 +73,13 @@ public class MainActivity extends AppCompatActivity {
     private void renderNavHeaderView() {
         LogUtil.V("渲染侧拉边栏头部");
         MobileUser mobileUser = getApp().getMobileUser();
+
+        if (mobileUser == null) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+
         navUserNameTextView.setText(mobileUser.getUserName());
 
         if (!StringUtil.isEmpty(mobileUser.getUserHeadPortrait())) {
