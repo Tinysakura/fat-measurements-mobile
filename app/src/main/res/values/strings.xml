@@ -41,5 +41,12 @@
     <string name="pic_from_camera">拍照</string>
     <string name="pic_from_cancel">取消</string>
     <string name="save_edit_user_info">保存</string>
+    <string name="log_out">退出登录</string>
+    <string name="setting_theme">主题</string>
+    <string name="setting_feed_back">反馈</string>
+    <string name="more"><![CDATA[>]]></string>
+    <string name="setting_about">关于fat_measurement</string>
+    <string name="setting_cleanup_cache">清除缓存</string>
+    <string name="setting_push">消息推送</string>
 
 </resources>
