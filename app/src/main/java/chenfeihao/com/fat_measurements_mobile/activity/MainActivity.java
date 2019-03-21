@@ -87,9 +87,10 @@ public class MainActivity extends AppCompatActivity {
     // 给menu中的item设置点击事件
     private void initNavigationViewListener() {
         navigationView.setNavigationItemSelectedListener(menuItem -> {
+            Intent intent;
             switch (menuItem.getItemId()) {
                 case R.id.nav_user:
-                    Intent intent = new Intent(MainActivity.this, UserInformationActivity.class);
+                    intent = new Intent(MainActivity.this, UserInformationActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.nav_data:
@@ -97,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.nav_account:
                     break;
                 case R.id.nav_setting:
+                    intent = new Intent(MainActivity.this, SettingActivity.class);
+                    startActivity(intent);
                     break;
             }
 
