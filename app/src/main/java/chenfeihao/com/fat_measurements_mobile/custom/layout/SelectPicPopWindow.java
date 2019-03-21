@@ -31,7 +31,7 @@ public class SelectPicPopWindow extends PopupWindow {
 
     private TextView picFromStorageTextView;
 
-    private TextView picFromCancleTextView;
+    private TextView picFromCancelTextView;
 
     public SelectPicPopWindow(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -48,7 +48,7 @@ public class SelectPicPopWindow extends PopupWindow {
 
         picFromCameraTextView = popWindow.findViewById(R.id.pic_from_camera);
         picFromStorageTextView = popWindow.findViewById(R.id.pic_from_storage);
-        picFromCancleTextView = popWindow.findViewById(R.id.pic_from_cancel);
+        picFromCancelTextView = popWindow.findViewById(R.id.pic_from_cancel);
 
         //设置SelectPicPopupWindow的View
         this.setContentView(popWindow);
@@ -83,7 +83,7 @@ public class SelectPicPopWindow extends PopupWindow {
         });
 
 
-        picFromCancleTextView.setOnClickListener(view -> {
+        picFromCancelTextView.setOnClickListener(view -> {
             /**
              * 取消选择按钮将销毁弹出框
              */
