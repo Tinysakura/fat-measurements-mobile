@@ -3,6 +3,7 @@ package chenfeihao.com.fat_measurements_mobile.activity;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -272,21 +273,24 @@ public class UserInformationActivity extends AppCompatActivity {
     /**
      * 通过uri和selection来获取真实的图片路径
      * */
-    private String getImagePath(Uri uri,String selection) {
-        String path = null;
-        Cursor cursor = getContentResolver().query(uri,null,selection,null,null);
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-            }
+    private String getRealPathFromURI(Context context, Uri contentURI) {
+        String result;
+        Cursor cursor = context.getContentResolver().query(contentURI,
+                new String[]{MediaStore.Images.ImageColumns.DATA},//
+                null, null, null);
+        if (cursor == null) result = contentURI.getPath();
+        else {
+            cursor.moveToFirst();
+            int index = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            result = cursor.getString(index);
             cursor.close();
         }
-        return path;
+        return result;
     }
 
     private void uploadFile2Server(Uri uri) {
         // OutputStream outputStream = getContentResolver().openOutputStream(uri);
-        File file = new File(getImagePath(uri, null));
+        File file = new File(getRealPathFromURI(this, uri));
         // 创建RequestBody，传入参数："multipart/form-data"，File
         RequestBody fileRequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
 
