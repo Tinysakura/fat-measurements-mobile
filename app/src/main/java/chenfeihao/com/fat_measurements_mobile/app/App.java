@@ -75,7 +75,9 @@ public class App extends Application {
         /**
          * 用户签名
          */
-        mobileUser.setSignature(sharedPreferences.getString("user_signature", null));
+        if (mobileUser != null) {
+            mobileUser.setSignature(sharedPreferences.getString("user_signature", null));
+        }
 
         /**
          * 如果没有用户信息或用户信息过期则跳转到LoginActivity
