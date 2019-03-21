@@ -112,7 +112,7 @@ public class SelectPicPopWindow extends PopupWindow {
             selectPicListener.selectPicFromCameraListener();
         });
 
-        picFromCameraTextView.setOnClickListener(v -> {
+        picFromStorageTextView.setOnClickListener(v -> {
             selectPicListener.selectPicFromStorageListener();
         });
     }
