@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initUI(){
         navigationView = findViewById(R.id.nav_view);
-        // publishTimeSortNiceSpinner = findViewById(R.id.publish_time_sort);
-        // varietyFilterNiceSpinner = findViewById(R.id.variety_filter);
+        publishTimeSortSpinner = findViewById(R.id.publish_time_sort);
+        varietyFilterSpinner = findViewById(R.id.variety_filter);
         swipeRefreshLayout = findViewById(R.id.main_swipe_refresh);
         mainRecyclerView = findViewById(R.id.main_recycler_view);
         bottomNavigationBar = findViewById(R.id.main_bottom_bar);
