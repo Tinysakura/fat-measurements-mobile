@@ -32,6 +32,11 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="itemSpinnerStyle2" parent="@android:style/Widget.TextView.SpinnerItem">
+        <item name="android:textColor">@color/colorGray1</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
     <style name="customSearchView" parent="Widget.AppCompat.SearchView">
         <!--修改搜索框提示文字-->
         <item name="defaultQueryHint">输入动物序号查询指定测量信息</item>

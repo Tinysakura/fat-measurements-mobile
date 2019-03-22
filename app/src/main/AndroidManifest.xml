@@ -37,6 +37,7 @@
         </provider>
 
         <activity android:name=".activity.SettingActivity" />
+        <activity android:name=".activity.MeasureActivity"></activity>
     </application>
 
 </manifest>

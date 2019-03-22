@@ -121,6 +121,25 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int position) {
+                switch (position) {
+                    case 0:
+                        /**
+                         * 查看已测量完成的数据
+                         */
+                        break;
+                    case 1:
+                        /**
+                         * 测量新的数据
+                         */
+                        Intent intent = new Intent(MainActivity.this, MeasureActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 2:
+                        /**
+                         * 查看草稿状态的数据
+                         */
+                        break;
+                }
             }
 
             @Override
