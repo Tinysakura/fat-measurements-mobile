@@ -32,7 +32,6 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/measure_animal_id"
         android:entries="@array/variety"
-        android:layout_marginLeft="5sp"
         android:layout_marginRight="5sp"
         android:id="@+id/measure_animal_variety"
         android:layout_marginBottom="10sp"
@@ -42,8 +41,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="1sp"
-        android:layout_marginLeft="5sp"
-        android:layout_marginRight="5sp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:layout_marginBottom="10sp"
         app:layout_constraintTop_toBottomOf="@id/measure_animal_variety"
         android:background="#B5B5B5" />
 
@@ -52,7 +52,6 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/measure_animal_variety"
         android:entries="@array/sex"
-        android:layout_marginLeft="5sp"
         android:layout_marginRight="5sp"
         android:id="@+id/measure_animal_sex"
         android:layout_marginBottom="10sp"
@@ -62,8 +61,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="1sp"
-        android:layout_marginLeft="5sp"
-        android:layout_marginRight="5sp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
         app:layout_constraintTop_toBottomOf="@id/measure_animal_sex"
         android:background="#B5B5B5" />
 
@@ -112,7 +111,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -125,10 +124,10 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:id="@+id/measure_save_draft"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:clickable="true"
             android:focusable="true"
-            android:textAlignment="center"
+            android:gravity="center"
             android:layout_marginLeft="20sp"
             android:layout_marginRight="20sp"
             android:background="@color/colorPrimary"
@@ -139,12 +138,12 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:id="@+id/measure_submit"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="20sp"
             android:layout_marginRight="20sp"
             android:clickable="true"
             android:focusable="true"
-            android:textAlignment="center"
+            android:gravity="center"
             android:background="@color/colorPrimary"
             android:textColor="@color/colorWhite"
             android:text="@string/measure"/>
