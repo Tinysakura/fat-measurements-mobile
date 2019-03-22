@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initBottomNavigationBar() {
+        bottomNavigationBar.clearAll();
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_DEFAULT);
 
         BottomNavigationItem[] bottomNavigationItemArray = {new BottomNavigationItem(R.mipmap.measure_success, "已测量"),
@@ -243,6 +244,7 @@ public class MainActivity extends AppCompatActivity {
         jump2Login();
 
         renderNavHeaderView();
+        initBottomNavigationBar();
     }
 
     private void jump2Login() {
