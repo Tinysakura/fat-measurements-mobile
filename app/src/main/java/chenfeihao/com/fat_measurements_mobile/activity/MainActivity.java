@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.SearchView;
+import android.support.v7.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
