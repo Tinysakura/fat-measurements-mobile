@@ -48,5 +48,8 @@
     <string name="setting_about">关于fat_measurement</string>
     <string name="setting_cleanup_cache">清除缓存</string>
     <string name="setting_push">消息推送</string>
+    <string name="publish_time"><u>发布时间</u>∨</string>
+    <string name="variety"><u>品种</u>∨</string>
+    <string name="measure_finish">已测量</string>
 
 </resources>

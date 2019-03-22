@@ -1,24 +1,26 @@
 package chenfeihao.com.fat_measurements_mobile.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
+import com.ashokvarma.bottomnavigation.BottomNavigationBar;
+import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.bumptech.glide.Glide;
 
-import org.w3c.dom.Text;
+import org.angmarch.views.NiceSpinner;
+
+import java.util.Arrays;
+import java.util.List;
 
 import chenfeihao.com.fat_measurements_mobile.R;
 import chenfeihao.com.fat_measurements_mobile.app.App;
-import chenfeihao.com.fat_measurements_mobile.constant.UserInformationConstant;
+import chenfeihao.com.fat_measurements_mobile.constant.AnimalConstant;
 import chenfeihao.com.fat_measurements_mobile.pojo.bo.MobileUser;
 import chenfeihao.com.fat_measurements_mobile.util.LogUtil;
 import chenfeihao.com.fat_measurements_mobile.util.StringUtil;
@@ -39,6 +41,14 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView navUserSignatureTextView;
 
+    private NiceSpinner publishTimeSortNiceSpinner;
+
+    private NiceSpinner varietyFilterNiceSpinner;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
+
+    private BottomNavigationBar bottomNavigationBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,10 +59,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void initUI(){
         navigationView = findViewById(R.id.nav_view);
+        publishTimeSortNiceSpinner = findViewById(R.id.publish_time_sort);
+        varietyFilterNiceSpinner = findViewById(R.id.variety_filter);
+        swipeRefreshLayout = findViewById(R.id.main_swipe_refresh);
+        bottomNavigationBar = findViewById(R.id.main_bottom_bar);
+
+        initNavigationView();
+        initBottomNavigationBar();
+        initNiceSpinner();
+    }
+
+    private void initNavigationView() {
         // 设置menu中的data item被默认选中
         navigationView.setCheckedItem(R.id.nav_data);
 
-        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         navHeaderView = navigationView.getHeaderView(0);
 
         if (navHeaderView == null) {
@@ -62,9 +82,61 @@ public class MainActivity extends AppCompatActivity {
         navHeadPortraitCircleImageView = navHeaderView.findViewById(R.id.nav_head_portrait);
         navUserNameTextView = navHeaderView.findViewById(R.id.nav_user_name);
         navUserSignatureTextView = navHeaderView.findViewById(R.id.nav_personal_signature);
-        // renderNavHeaderView();
 
         initNavigationViewListener();
+    }
+
+    private void initBottomNavigationBar() {
+        bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.measure_success, "已测量"))
+                .addItem(new BottomNavigationItem(R.mipmap.measure, "测量"))
+                .addItem(new BottomNavigationItem(R.mipmap.measure_draft, "草稿"))
+                .initialise();
+    }
+    
+    private void initNiceSpinner() {
+        initPublishTimeSortNiceSpinner();
+
+        initVarietyFilterNiceSpinner();
+    }
+
+    private void initPublishTimeSortNiceSpinner() {
+        List<String> menuList = Arrays.asList("默认排序", "时间正序", "时间倒序");
+
+        publishTimeSortNiceSpinner.attachDataSource(menuList);
+
+        publishTimeSortNiceSpinner.addOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                }
+            }
+        });
+    }
+
+    private void initVarietyFilterNiceSpinner() {
+        List<String> menuList = Arrays.asList(AnimalConstant.AnimalVarietyEnum.Duroc_PIF.getVariety(), AnimalConstant.AnimalVarietyEnum.Landrace_PIG.getVariety(), AnimalConstant.AnimalVarietyEnum.Large_White_PIG.getVariety());
+
+        varietyFilterNiceSpinner.attachDataSource(menuList);
+
+        varietyFilterNiceSpinner.addOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                }
+            }
+        });
     }
 
     /**
