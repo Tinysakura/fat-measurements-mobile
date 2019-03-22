@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
+    private RecyclerView mainRecyclerView;
+
     private BottomNavigationBar bottomNavigationBar;
 
     @Override
@@ -62,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         publishTimeSortNiceSpinner = findViewById(R.id.publish_time_sort);
         varietyFilterNiceSpinner = findViewById(R.id.variety_filter);
         swipeRefreshLayout = findViewById(R.id.main_swipe_refresh);
+        mainRecyclerView = findViewById(R.id.main_recycler_view);
         bottomNavigationBar = findViewById(R.id.main_bottom_bar);
 
         initNavigationView();
