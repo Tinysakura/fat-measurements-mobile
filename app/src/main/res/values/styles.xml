@@ -27,5 +27,9 @@
         <item name="android:windowExitAnimation">@anim/popwindow_out</item>
     </style>
 
+    <style name="itemSpinnerStyle" parent="@android:style/Widget.TextView.SpinnerItem">
+        <item name="android:textColor">@color/darkGray</item>
+        <item name="android:textSize">15sp</item>
+    </style>
 
 </resources>

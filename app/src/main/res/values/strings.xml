@@ -51,5 +51,7 @@
     <string name="publish_time"><u>发布时间</u>∨</string>
     <string name="variety"><u>品种</u>∨</string>
     <string name="measure_finish">已测量</string>
+    <string name="sort">排序</string>
+    <string name="variety2">品种</string>
 
 </resources>

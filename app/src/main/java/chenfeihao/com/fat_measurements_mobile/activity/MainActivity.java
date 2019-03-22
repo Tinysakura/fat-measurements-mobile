@@ -1,6 +1,7 @@
 package chenfeihao.com.fat_measurements_mobile.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -42,9 +44,9 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView navUserSignatureTextView;
 
-    private NiceSpinner publishTimeSortNiceSpinner;
+    private Spinner publishTimeSortNiceSpinner;
 
-    private NiceSpinner varietyFilterNiceSpinner;
+    private Spinner varietyFilterNiceSpinner;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -62,15 +64,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void initUI(){
         navigationView = findViewById(R.id.nav_view);
-        publishTimeSortNiceSpinner = findViewById(R.id.publish_time_sort);
-        varietyFilterNiceSpinner = findViewById(R.id.variety_filter);
+        // publishTimeSortNiceSpinner = findViewById(R.id.publish_time_sort);
+        // varietyFilterNiceSpinner = findViewById(R.id.variety_filter);
         swipeRefreshLayout = findViewById(R.id.main_swipe_refresh);
         mainRecyclerView = findViewById(R.id.main_recycler_view);
         bottomNavigationBar = findViewById(R.id.main_bottom_bar);
 
         initNavigationView();
         initBottomNavigationBar();
-        initNiceSpinner();
+        // initNiceSpinner();
     }
 
     private void initNavigationView() {
@@ -91,10 +93,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initBottomNavigationBar() {
-        bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.measure_success, "已测量"))
-                .addItem(new BottomNavigationItem(R.mipmap.measure, "测量"))
-                .addItem(new BottomNavigationItem(R.mipmap.measure_draft, "草稿"))
+        bottomNavigationBar.setMode(BottomNavigationBar.MODE_DEFAULT);
+
+        BottomNavigationItem[] bottomNavigationItemArray = {new BottomNavigationItem(R.mipmap.measure_success, "已测量"),
+                new BottomNavigationItem(R.mipmap.measure, "测量"),
+                new BottomNavigationItem(R.mipmap.measure_draft, "草稿")};
+
+        bottomNavigationBar.addItem(bottomNavigationItemArray[0])
+                .addItem(bottomNavigationItemArray[1])
+                .addItem(bottomNavigationItemArray[2])
+                .setActiveColor(R.color.darkGray)
+                .setInActiveColor(R.color.darkGray)
+                .setFirstSelectedPosition(0) //设置默认选中位置
                 .initialise();
+
+        bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(int position) {
+            }
+
+            @Override
+            public void onTabUnselected(int position) {
+
+            }
+
+            @Override
+            public void onTabReselected(int position) {
+
+            }
+        });
     }
     
     private void initNiceSpinner() {
@@ -104,43 +131,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initPublishTimeSortNiceSpinner() {
-        List<String> menuList = Arrays.asList("默认排序", "时间正序", "时间倒序");
 
-        publishTimeSortNiceSpinner.attachDataSource(menuList);
-
-        publishTimeSortNiceSpinner.addOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                }
-            }
-        });
     }
 
     private void initVarietyFilterNiceSpinner() {
-        List<String> menuList = Arrays.asList(AnimalConstant.AnimalVarietyEnum.Duroc_PIF.getVariety(), AnimalConstant.AnimalVarietyEnum.Landrace_PIG.getVariety(), AnimalConstant.AnimalVarietyEnum.Large_White_PIG.getVariety());
-
-        varietyFilterNiceSpinner.attachDataSource(menuList);
-
-        varietyFilterNiceSpinner.addOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                }
-            }
-        });
     }
 
     /**

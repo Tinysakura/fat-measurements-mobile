@@ -13,7 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.08"
+            app:layout_constraintHeight_percent="0.05"
             android:id="@+id/main_filter_top_bar"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -21,27 +21,25 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintVertical_bias="0">
+            app:layout_constraintVertical_bias="0"
+            android:gravity="center_vertical">
 
-            <org.angmarch.views.NiceSpinner
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:id="@+id/publish_time_sort"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:textSize="10sp"
-                android:background="@android:color/transparent"
-                app:arrowTint="@color/colorPrimary"
-                app:textTint="@color/colorAccent" />
+                android:entries="@array/time"
+                android:theme="@style/itemSpinnerStyle">
+            </Spinner>
 
-            <org.angmarch.views.NiceSpinner
-                android:id="@+id/variety_filter"
+            <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10sp"
-                android:background="@android:color/transparent"
-                android:layout_margin="10dp"
-                app:arrowTint="@color/colorPrimary"
-                app:textTint="@color/colorAccent" />
+                android:id="@+id/variety_filter"
+                android:entries="@array/variety"
+                android:theme="@style/itemSpinnerStyle">
+            </Spinner>
         </LinearLayout>
 
         <LinearLayout
@@ -54,7 +52,7 @@
         <android.support.v4.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.82"
+            app:layout_constraintHeight_percent="0.85"
             app:layout_constrainedHeight="true"
             app:layout_constraintTop_toBottomOf="@id/main_filter_top_bar"
             android:id="@+id/main_swipe_refresh">
