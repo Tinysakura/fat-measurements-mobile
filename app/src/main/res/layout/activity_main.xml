@@ -27,7 +27,8 @@
             <android.support.v7.widget.SearchView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:id="@+id/main_search_view">
+                android:id="@+id/main_search_view"
+                android:theme="@style/customSearchView">
 
             </android.support.v7.widget.SearchView>
 

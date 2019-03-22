@@ -32,4 +32,10 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="customSearchView" parent="Widget.AppCompat.SearchView">
+        <!--修改搜索框提示文字-->
+        <item name="defaultQueryHint">输入动物序号查询指定测量信息</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>
