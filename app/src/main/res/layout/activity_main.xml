@@ -71,7 +71,7 @@
         <android.support.v4.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.85"
+            app:layout_constraintHeight_percent="0.8"
             app:layout_constrainedHeight="true"
             app:layout_constraintTop_toBottomOf="@id/main_filter_top_bar"
             android:id="@+id/main_swipe_refresh">
