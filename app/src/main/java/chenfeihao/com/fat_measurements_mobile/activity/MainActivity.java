@@ -1,7 +1,6 @@
 package chenfeihao.com.fat_measurements_mobile.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -9,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -16,14 +16,8 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.bumptech.glide.Glide;
 
-import org.angmarch.views.NiceSpinner;
-
-import java.util.Arrays;
-import java.util.List;
-
 import chenfeihao.com.fat_measurements_mobile.R;
 import chenfeihao.com.fat_measurements_mobile.app.App;
-import chenfeihao.com.fat_measurements_mobile.constant.AnimalConstant;
 import chenfeihao.com.fat_measurements_mobile.pojo.bo.MobileUser;
 import chenfeihao.com.fat_measurements_mobile.util.LogUtil;
 import chenfeihao.com.fat_measurements_mobile.util.StringUtil;
@@ -44,9 +38,11 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView navUserSignatureTextView;
 
-    private Spinner publishTimeSortNiceSpinner;
+    private Spinner publishTimeSortSpinner;
 
-    private Spinner varietyFilterNiceSpinner;
+    private Spinner varietyFilterSpinner;
+
+    private SearchView searchView;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -69,10 +65,25 @@ public class MainActivity extends AppCompatActivity {
         swipeRefreshLayout = findViewById(R.id.main_swipe_refresh);
         mainRecyclerView = findViewById(R.id.main_recycler_view);
         bottomNavigationBar = findViewById(R.id.main_bottom_bar);
+        searchView = findViewById(R.id.main_search_view);
 
         initNavigationView();
         initBottomNavigationBar();
-        // initNiceSpinner();
+        initSpinner();
+    }
+
+    private void initSearchView() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
     }
 
     private void initNavigationView() {
@@ -124,17 +135,28 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     
-    private void initNiceSpinner() {
-        initPublishTimeSortNiceSpinner();
+    private void initSpinner() {
+        initPublishTimeSortSpinner();
 
-        initVarietyFilterNiceSpinner();
+        initVarietyFilterSpinner();
     }
 
-    private void initPublishTimeSortNiceSpinner() {
+    private void initPublishTimeSortSpinner() {
+        publishTimeSortSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+            }
+        });
     }
 
-    private void initVarietyFilterNiceSpinner() {
+    private void initVarietyFilterSpinner() {
+        varietyFilterSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
     }
 
     /**
