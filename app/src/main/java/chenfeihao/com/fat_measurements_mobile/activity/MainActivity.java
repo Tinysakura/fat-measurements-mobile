@@ -161,18 +161,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initPublishTimeSortSpinner() {
-        publishTimeSortSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        publishTimeSortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
     }
 
     private void initVarietyFilterSpinner() {
-        varietyFilterSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        varietyFilterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
