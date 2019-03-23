@@ -105,15 +105,15 @@ public class MeasureResultActivity extends AppCompatActivity {
         musculiOculiOriginalTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "眼肌面积:", measureResult.getMusculiOculi())));
         musculiOculiReviseTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "眼肌面积校正值:", measureResult.getMusculiOculiRevise())));
 
-        backFatOriginalTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "瘦肉率:", measureResult.getLeanRate())));
-        backFatReviseTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "肌间脂肪比", measureResult.getFatRate())));
+        leanRateTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "瘦肉率:", measureResult.getLeanRate())));
+        fatRateTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "肌间脂肪比:", measureResult.getFatRate())));
 
         /**
          * 需要处理的值
          */
         int rank = measureResult.getFatBalanceRank();
-        leanRateTextView.setText(titleArray[rank - 1]);
-        fatRateTextView.setText(fatBalanceRankArray[rank - 1]);
+        measureResultTitleTextView.setText(titleArray[rank - 1]);
+        fatBalanceRankTextView.setText(fatBalanceRankArray[rank - 1]);
 
         renderSuggestion(rank);
 
