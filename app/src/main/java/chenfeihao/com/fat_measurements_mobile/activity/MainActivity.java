@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                         intent.setType("*/*");//无类型限制
                         intent.addCategory(Intent.CATEGORY_OPENABLE);
-                        startActivityForResult(intent, 1);
+                        startActivityForResult(intent, SELECT_LOCAL_FILE);
 //                        Intent intent = new Intent(MainActivity.this, MeasureActivity.class);
 //                        startActivity(intent);
                         break;
