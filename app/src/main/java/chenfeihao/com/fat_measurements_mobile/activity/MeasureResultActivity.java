@@ -85,7 +85,7 @@ public class MeasureResultActivity extends AppCompatActivity {
 
     private void renderData() {
         Intent intent = getIntent();
-        String resultJson = intent.getStringExtra("measure_result");
+        String resultJson = intent.getStringExtra("measure_finish_result");
 
         if (StringUtil.isEmpty(resultJson)) {
             return;

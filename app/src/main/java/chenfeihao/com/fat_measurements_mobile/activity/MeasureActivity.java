@@ -152,7 +152,7 @@ public class MeasureActivity extends AppCompatActivity {
 
                                 String jsonStr = JSON.toJSONString(animalResultDtoResponseView.getResult());
                                 LogUtil.V("序列化结果:" + jsonStr);
-                                intent.putExtra("measure_result", jsonStr);
+                                intent.putExtra("measure_finish_result", jsonStr);
 
                                 progressDialog.cancel();
                                 startActivity(intent);
