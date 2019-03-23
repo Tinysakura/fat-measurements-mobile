@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
+import java.math.RoundingMode;
+
 import chenfeihao.com.fat_measurements_mobile.R;
 import chenfeihao.com.fat_measurements_mobile.constant.AnimalConstant;
 import chenfeihao.com.fat_measurements_mobile.custom.layout.TitleLayout;
@@ -98,11 +100,11 @@ public class MeasureResultActivity extends AppCompatActivity {
         /**
          * 可以直接填充的值
          */
-        backFatOriginalTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "背肌厚度:", measureResult.getBackFat().setScale(2) + "cm")));
-        backFatReviseTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "背肌厚度校正值:", measureResult.getBackFatRevise().setScale(2) + "cm")));
+        backFatOriginalTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "背肌厚度:", measureResult.getBackFat().setScale(2,RoundingMode.HALF_UP) + "cm")));
+        backFatReviseTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "背肌厚度校正值:", measureResult.getBackFatRevise().setScale(2, RoundingMode.HALF_UP) + "cm")));
 
-        musculiOculiOriginalTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "眼肌面积:", measureResult.getMusculiOculi().setScale(2) + "cm²")));
-        musculiOculiReviseTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "眼肌面积校正值:", measureResult.getMusculiOculiRevise().setScale(2) + "cm²")));
+        musculiOculiOriginalTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "眼肌面积:", measureResult.getMusculiOculi().setScale(2, RoundingMode.HALF_UP) + "cm²")));
+        musculiOculiReviseTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "眼肌面积校正值:", measureResult.getMusculiOculiRevise().setScale(2, RoundingMode.HALF_UP) + "cm²")));
 
         leanRateTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "瘦肉率:", measureResult.getLeanRate().setScale(2))));
         fatRateTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "肌间脂肪比:", measureResult.getFatRate().setScale(2))));
