@@ -1,7 +1,10 @@
 package chenfeihao.com.fat_measurements_mobile.activity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +24,7 @@ import chenfeihao.com.fat_measurements_mobile.app.App;
 import chenfeihao.com.fat_measurements_mobile.pojo.bo.MobileUser;
 import chenfeihao.com.fat_measurements_mobile.util.LogUtil;
 import chenfeihao.com.fat_measurements_mobile.util.StringUtil;
+import chenfeihao.com.fat_measurements_mobile.util.UriPathSwitchUtil;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
@@ -50,6 +54,11 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationBar bottomNavigationBar;
 
+    /**
+     * data
+     */
+    private static final int SELECT_LOCAL_FILE = 3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         initNavigationView();
         initBottomNavigationBar();
         initSpinner();
+        initSearchView();
     }
 
     private void initSearchView() {
@@ -131,9 +141,14 @@ public class MainActivity extends AppCompatActivity {
                     case 1:
                         /**
                          * 测量新的数据
+                         * 打开本地文件管理器选择B超文件
                          */
-                        Intent intent = new Intent(MainActivity.this, MeasureActivity.class);
-                        startActivity(intent);
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent.setType("*/*");//无类型限制
+                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        startActivityForResult(intent, 1);
+//                        Intent intent = new Intent(MainActivity.this, MeasureActivity.class);
+//                        startActivity(intent);
                         break;
                     case 2:
                         /**
@@ -252,6 +267,24 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case SELECT_LOCAL_FILE:
+                    Uri uri = data.getData();
+                    String realPath = UriPathSwitchUtil.getPathByUri4kitkat(this, uri);
+
+                    Intent intent = new Intent(MainActivity.this, MeasureActivity.class);
+                    intent.putExtra("file_path", realPath);
+                    startActivity(intent);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
