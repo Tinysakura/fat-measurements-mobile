@@ -59,5 +59,8 @@
     <string name="measure">测量</string>
     <string name="add">+</string>
     <string name="file_name">文件名</string>
+    <string name="fat_balance_rank">脂肪均匀等级</string>
+
+    <string name="measure_result_format"><Data><![CDATA[%1$s<font color="#00574B"><i>%2$s</i></font>]]></Data></string>
 
 </resources>
