@@ -47,7 +47,7 @@ public class MeasureResultActivity extends AppCompatActivity {
     /**
      * data
      */
-    private static final String[] titleArray = {"猪猪的肉质下降了，饲养员要注意了！", "猪猪的肉质正常，再接再厉！", "猪猪的肉质非常棒，快来分享养育心得吧！"};
+    private static final String[] titleArray = {"猪猪的肉质下降了！", "猪猪的肉质正常。", "猪猪的肉质非常棒！"};
 
     private static final String[] fatBalanceRankArray = {"Rank1", "Rank2", "Rank3"};
 
@@ -112,8 +112,8 @@ public class MeasureResultActivity extends AppCompatActivity {
          * 需要处理的值
          */
         int rank = measureResult.getFatBalanceRank();
-        measureResultTitleTextView.setText(titleArray[rank - 1]);
-        fatBalanceRankTextView.setText(fatBalanceRankArray[rank - 1]);
+        leanRateTextView.setText(titleArray[rank - 1]);
+        fatRateTextView.setText(fatBalanceRankArray[rank - 1]);
 
         renderSuggestion(rank);
 
