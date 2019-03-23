@@ -88,6 +88,11 @@ public class MeasureActivity extends AppCompatActivity {
     }
 
     private void initUI() {
+        measureAnimalIdEditText = findViewById(R.id.measure_animal_id);
+        measureAnimalWeightEditText = findViewById(R.id.measure_animal_weight);
+        measureAnimalVarietySpiner = findViewById(R.id.measure_animal_variety);
+        measureAnimalSexSpiner = findViewById(R.id.measure_animal_sex);
+
         initCustomTitleLayout();
         initMeasureBUltrasoundRelated();
 
