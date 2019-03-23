@@ -140,6 +140,7 @@ public class MeasureActivity extends AppCompatActivity {
 
                 animalDataHttpService.saveAnimalDataForm(requestBody).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(animalResultDtoResponseView -> {
                     Long animalDataId = animalResultDtoResponseView.getResult().getId();
+                    Integer animalSex = animalResultDtoResponseView.getResult().getAnimalSex();
 
                     try {
                         animalResultHttpService.measure(animalDataId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<ResponseView<AnimalResultDto>>() {
@@ -153,6 +154,7 @@ public class MeasureActivity extends AppCompatActivity {
                                 String jsonStr = JSON.toJSONString(animalResultDtoResponseView.getResult());
                                 LogUtil.V("序列化结果:" + jsonStr);
                                 intent.putExtra("measure_finish_result", jsonStr);
+                                intent.putExtra("sex", animalSex);
 
                                 progressDialog.cancel();
                                 startActivity(intent);
