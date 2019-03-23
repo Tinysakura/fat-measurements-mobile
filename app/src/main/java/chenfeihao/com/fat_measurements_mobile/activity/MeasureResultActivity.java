@@ -101,10 +101,10 @@ public class MeasureResultActivity extends AppCompatActivity {
          * 可以直接填充的值
          */
         backFatOriginalTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "背肌厚度:", measureResult.getBackFat().setScale(2,RoundingMode.HALF_UP) + "cm")));
-        backFatReviseTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "背肌厚度校正值:", measureResult.getBackFatRevise().setScale(2, RoundingMode.HALF_UP) + "cm")));
+        backFatReviseTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "校正值:", measureResult.getBackFatRevise().setScale(2, RoundingMode.HALF_UP) + "cm")));
 
         musculiOculiOriginalTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "眼肌面积:", measureResult.getMusculiOculi().setScale(2, RoundingMode.HALF_UP) + "cm²")));
-        musculiOculiReviseTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "眼肌面积校正值:", measureResult.getMusculiOculiRevise().setScale(2, RoundingMode.HALF_UP) + "cm²")));
+        musculiOculiReviseTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "校正值:", measureResult.getMusculiOculiRevise().setScale(2, RoundingMode.HALF_UP) + "cm²")));
 
         leanRateTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "瘦肉率:", measureResult.getLeanRate().setScale(2, RoundingMode.HALF_UP))));
         fatRateTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "肌间脂肪比:", measureResult.getFatRate().setScale(2, RoundingMode.HALF_UP))));
