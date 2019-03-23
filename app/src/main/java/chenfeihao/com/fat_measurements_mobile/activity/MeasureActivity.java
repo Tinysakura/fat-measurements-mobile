@@ -138,11 +138,11 @@ public class MeasureActivity extends AppCompatActivity {
                 progressDialog.setIndeterminate(false);
                 progressDialog.show();
 
-                animalDataHttpService.saveAnimalDataForm(requestBody).subscribeOn(Schedulers.io()).subscribeOn(AndroidSchedulers.mainThread()).subscribe(animalResultDtoResponseView -> {
+                animalDataHttpService.saveAnimalDataForm(requestBody).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(animalResultDtoResponseView -> {
                     Long animalDataId = animalResultDtoResponseView.getResult().getId();
 
                     try {
-                        animalResultHttpService.measure(animalDataId).subscribeOn(Schedulers.io()).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<ResponseView<AnimalResultDto>>() {
+                        animalResultHttpService.measure(animalDataId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<ResponseView<AnimalResultDto>>() {
                             @Override
                             public void call(ResponseView<AnimalResultDto> animalResultDtoResponseView) {
                                 /**
