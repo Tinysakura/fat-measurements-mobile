@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.Html;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
@@ -99,14 +98,14 @@ public class MeasureResultActivity extends AppCompatActivity {
         /**
          * 可以直接填充的值
          */
-        backFatOriginalTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "背肌厚度:", measureResult.getBackFat())));
-        backFatReviseTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "背肌厚度校正值:", measureResult.getBackFatRevise())));
+        backFatOriginalTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "背肌厚度:", measureResult.getBackFat().setScale(2) + "cm")));
+        backFatReviseTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "背肌厚度校正值:", measureResult.getBackFatRevise().setScale(2) + "cm")));
 
-        musculiOculiOriginalTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "眼肌面积:", measureResult.getMusculiOculi())));
-        musculiOculiReviseTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "眼肌面积校正值:", measureResult.getMusculiOculiRevise())));
+        musculiOculiOriginalTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "眼肌面积:", measureResult.getMusculiOculi().setScale(2) + "cm²")));
+        musculiOculiReviseTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "眼肌面积校正值:", measureResult.getMusculiOculiRevise().setScale(2) + "cm²")));
 
-        leanRateTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "瘦肉率:", measureResult.getLeanRate())));
-        fatRateTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "肌间脂肪比:", measureResult.getFatRate())));
+        leanRateTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "瘦肉率:", measureResult.getLeanRate().setScale(2))));
+        fatRateTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "肌间脂肪比:", measureResult.getFatRate().setScale(2))));
 
         /**
          * 需要处理的值
@@ -124,7 +123,7 @@ public class MeasureResultActivity extends AppCompatActivity {
     private void renderImg(int rank, Integer sex) {
         switch (rank) {
             case 1:
-                Glide.with(this).load(R.mipmap.rank1).into(measureResultImg);
+                Glide.with(this).load(R.mipmap.rank3).into(measureResultImg);
                 break;
             case 2:
                 if (AnimalConstant.AnimalSexEnum.MALE.getCode().equals(sex)) {
@@ -134,7 +133,7 @@ public class MeasureResultActivity extends AppCompatActivity {
                 }
                 break;
             case 3:
-                Glide.with(this).load(R.mipmap.rank3).into(measureResultImg);
+                Glide.with(this).load(R.mipmap.rank1).into(measureResultImg);
                 break;
         }
     }
