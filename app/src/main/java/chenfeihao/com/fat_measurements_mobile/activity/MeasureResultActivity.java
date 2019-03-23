@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 
 import chenfeihao.com.fat_measurements_mobile.R;
 import chenfeihao.com.fat_measurements_mobile.constant.AnimalConstant;
@@ -91,7 +92,9 @@ public class MeasureResultActivity extends AppCompatActivity {
             return;
         }
 
-        AnimalResultDto measureResult = JSON.parseObject(resultJson, AnimalResultDto.class);
+        Gson gson = new Gson();
+
+        AnimalResultDto measureResult = gson.fromJson(resultJson, AnimalResultDto.class);
 
         /**
          * 可以直接填充的值
