@@ -106,8 +106,8 @@ public class MeasureResultActivity extends AppCompatActivity {
         musculiOculiOriginalTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "眼肌面积:", measureResult.getMusculiOculi().setScale(2, RoundingMode.HALF_UP) + "cm²")));
         musculiOculiReviseTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "眼肌面积校正值:", measureResult.getMusculiOculiRevise().setScale(2, RoundingMode.HALF_UP) + "cm²")));
 
-        leanRateTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "瘦肉率:", measureResult.getLeanRate().setScale(2))));
-        fatRateTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "肌间脂肪比:", measureResult.getFatRate().setScale(2))));
+        leanRateTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "瘦肉率:", measureResult.getLeanRate().setScale(2, RoundingMode.HALF_UP))));
+        fatRateTextView.setText(Html.fromHtml(getResources().getString(R.string.measure_result_format, "肌间脂肪比:", measureResult.getFatRate().setScale(2, RoundingMode.HALF_UP))));
 
         /**
          * 需要处理的值
