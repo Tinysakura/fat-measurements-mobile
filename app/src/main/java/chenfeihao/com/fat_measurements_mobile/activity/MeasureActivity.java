@@ -104,9 +104,9 @@ public class MeasureActivity extends AppCompatActivity {
         measureSaveDraftTextView = findViewById(R.id.measure_save_draft);
 
         measureSaveDraftTextView.setOnClickListener(v -> {
-            RequestBody requestBody = requestBodyBuild();
-
             try {
+                RequestBody requestBody = requestBodyBuild();
+
                 animalDataHttpService.saveAnimalDataForm(requestBody).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(animalResultDtoResponseView -> {
                     Toast toast = Toast.makeText(MeasureActivity.this, "草稿保存成功", Toast.LENGTH_SHORT);
                     toast.show();
@@ -128,10 +128,10 @@ public class MeasureActivity extends AppCompatActivity {
     private void initMeasureSubmitTextView() {
         measureSubmitTextView = findViewById(R.id.measure_submit);
 
-        RequestBody requestBody = requestBodyBuild();
-
         measureSubmitTextView.setOnClickListener(v -> {
             try {
+                RequestBody requestBody = requestBodyBuild();
+
                 animalDataHttpService.saveAnimalDataForm(requestBody).subscribeOn(Schedulers.io()).subscribeOn(AndroidSchedulers.mainThread()).subscribe(animalResultDtoResponseView -> {
                     Long animalDataId = animalResultDtoResponseView.getResult().getId();
 
