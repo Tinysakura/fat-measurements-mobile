@@ -102,7 +102,7 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="2"
+            android:layout_weight="5"
             android:layout_height="match_parent"
             android:text="背肌厚度:"
             android:id="@+id/measure_result_back_fat_original"/>
@@ -115,7 +115,7 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="2"
+            android:layout_weight="5"
             android:layout_height="match_parent"
             android:text="背肌厚度校正值:"
             android:id="@+id/measure_result_back_fat_revise"/>
@@ -135,7 +135,7 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="2"
+            android:layout_weight="5"
             android:layout_height="match_parent"
             android:text="眼肌面积:"
             android:id="@+id/measure_result_musculi_oculi_original"/>
@@ -148,7 +148,7 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="2"
+            android:layout_weight="5"
             android:layout_height="match_parent"
             android:text="眼肌面积校正值:"
             android:id="@+id/measure_result_musculi_oculi_revise"/>
@@ -168,7 +168,7 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="2"
+            android:layout_weight="5"
             android:layout_height="match_parent"
             android:text="瘦肉率:"
             android:id="@+id/measure_result_lean_rate"/>
@@ -180,7 +180,7 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="2"
+            android:layout_weight="5"
             android:layout_height="match_parent"
             android:text="肌间脂肪比:"
             android:id="@+id/measure_result_fat_rate"/>
