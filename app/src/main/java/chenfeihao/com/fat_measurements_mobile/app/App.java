@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 
 import com.alibaba.fastjson.JSON;
 
+import java.util.concurrent.TimeUnit;
+
 import chenfeihao.com.fat_measurements_mobile.activity.LoginActivity;
 import chenfeihao.com.fat_measurements_mobile.constant.enums.CommonCookieKeyEnum;
 import chenfeihao.com.fat_measurements_mobile.http.constant.CommonConstant;
@@ -56,7 +58,7 @@ public class App extends Application {
         OkHttpClient.Builder builder = new OkHttpClient.Builder().addInterceptor(chain -> {
             Request newRequest = chain.request().newBuilder().addHeader(CommonCookieKeyEnum.LOGIN_ID.getValue(), String.valueOf(userInfo.getId())).build();
             return chain.proceed(newRequest);
-        });
+        }).connectTimeout(60, TimeUnit.SECONDS).readTimeout(60, TimeUnit.SECONDS).writeTimeout(60, TimeUnit.SECONDS);
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(CommonConstant.ServiceHostConstant.host)
