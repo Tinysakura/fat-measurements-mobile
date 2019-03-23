@@ -167,8 +167,8 @@ public class MeasureActivity extends AppCompatActivity {
         Long animalDataId;
         animalDataId = intent.hasExtra("animal_data_id") ? intent.getLongExtra("animal_data_id", 0) : null;
 
-        String animalId = measureAnimalIdEditText.getText().toString();
-        BigDecimal animalWeight = new BigDecimal(measureAnimalWeightEditText.getText().toString());
+        String animalId = measureAnimalIdEditText.getText() != null ? measureAnimalIdEditText.getText().toString() : null;
+        BigDecimal animalWeight = measureAnimalWeightEditText.getText() != null ? new BigDecimal(measureAnimalWeightEditText.getText().toString()) : null;
         Integer animalVariety = animalVarietyArray[measureAnimalVarietySpiner.getSelectedItemPosition()];
         Integer animalSex = animalSexArray[measureAnimalSexSpiner.getSelectedItemPosition()];
 
