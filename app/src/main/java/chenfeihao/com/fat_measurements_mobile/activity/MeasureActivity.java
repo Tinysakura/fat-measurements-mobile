@@ -1,5 +1,6 @@
 package chenfeihao.com.fat_measurements_mobile.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -132,6 +133,11 @@ public class MeasureActivity extends AppCompatActivity {
             try {
                 RequestBody requestBody = requestBodyBuild();
 
+                ProgressDialog progressDialog = new ProgressDialog(this);
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.setIndeterminate(false);
+                progressDialog.show();
+
                 animalDataHttpService.saveAnimalDataForm(requestBody).subscribeOn(Schedulers.io()).subscribeOn(AndroidSchedulers.mainThread()).subscribe(animalResultDtoResponseView -> {
                     Long animalDataId = animalResultDtoResponseView.getResult().getId();
 
@@ -145,8 +151,10 @@ public class MeasureActivity extends AppCompatActivity {
                                 Intent intent = new Intent(MeasureActivity.this, MeasureResultActivity.class);
 
                                 String jsonStr = JSON.toJSONString(animalResultDtoResponseView.getResult());
+                                LogUtil.V("序列化结果:" + jsonStr);
                                 intent.putExtra("measure_result", jsonStr);
 
+                                progressDialog.cancel();
                                 startActivity(intent);
                             }
                         });
