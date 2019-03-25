@@ -82,7 +82,7 @@ public class AnimalDataAdapter extends RecyclerView.Adapter<AnimalDataAdapter.Vi
         } else if (AnimalConstant.AnimalSexEnum.FEMALE.getCode().equals(animalDataDto.getAnimalSex())) {
             viewHolder.cardAnimalSex.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
         }
-        viewHolder.cardAnimalSex.setText(animalDataDto.getAnimalSex());
+        viewHolder.cardAnimalSex.setText(animalDataDto.getAnimalSex() + "");
 
         viewHolder.cardAnimalVariety.setText(animalVariety[Integer.parseInt(animalDataDto.getAnimalVariety().toString().substring(2, 3))]);
 
