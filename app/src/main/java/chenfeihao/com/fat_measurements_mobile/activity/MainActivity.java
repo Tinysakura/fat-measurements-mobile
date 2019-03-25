@@ -128,6 +128,15 @@ public class MainActivity extends AppCompatActivity {
         mainRecyclerView.setAdapter(animalDataAdapter);
     }
 
+    /**
+     * 使用新的数据重新渲染recycleView
+     * @param data
+     */
+    private void reRenderRecycleView(List<AnimalDataDto> data) {
+        animalDataAdapter = new AnimalDataAdapter(data);
+        mainRecyclerView.setAdapter(animalDataAdapter);
+    }
+
     private void initUserAnimalData() {
         try {
             animalDataHttpService.getUserAnimalData().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(animalDataDtoResponseView -> {
@@ -211,6 +220,7 @@ public class MainActivity extends AppCompatActivity {
                         /**
                          * 查看已测量完成的数据
                          */
+                        reRenderRecycleView(animalDataDtoList);
                         break;
                     case 1:
                         /**
@@ -228,6 +238,7 @@ public class MainActivity extends AppCompatActivity {
                         /**
                          * 查看草稿状态的数据
                          */
+                        reRenderRecycleView(animalDataDtoDraftList);
                         break;
                 }
             }
