@@ -85,7 +85,7 @@ public class AnimalDataAdapter extends RecyclerView.Adapter<AnimalDataAdapter.Vi
             viewHolder.cardAnimalSex.setText("♀");
         }
 
-        viewHolder.cardAnimalVariety.setText(animalVariety[Integer.parseInt(animalDataDto.getAnimalVariety().toString().substring(2, 3))]);
+        viewHolder.cardAnimalVariety.setText(animalVariety[Integer.parseInt(animalDataDto.getAnimalVariety().toString().substring(2, 3)) - 1]);
 
         viewHolder.cardAnimalTime.setText(dataFormat.format(new Date(animalDataDto.getDbUpdateTime())));
 
