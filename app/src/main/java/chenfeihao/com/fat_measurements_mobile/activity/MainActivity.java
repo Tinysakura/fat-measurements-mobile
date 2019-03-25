@@ -117,10 +117,10 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationBar = findViewById(R.id.main_bottom_bar);
         searchView = findViewById(R.id.main_search_view);
 
+        initRecycleView();
         initNavigationView();
         initBottomNavigationBar();
         initSearchView();
-        initRecycleView();
         initSwipeRefreshLayout();
         initSpinner();
     }
@@ -325,6 +325,7 @@ public class MainActivity extends AppCompatActivity {
                          * 查看已测量完成的数据
                          */
                         reRenderRecycleView(animalDataDtoFilterList);
+                        LogUtil.V("触发回调");
                         break;
                     case 1:
                         /**
