@@ -74,10 +74,10 @@ public class MainActivity extends AppCompatActivity {
     private static final int SELECT_LOCAL_FILE = 3;
 
     // 已完成测量的数据
-    private List<AnimalDataDto> animalDataDtoList;
+    private List<AnimalDataDto> animalDataDtoList = new ArrayList<>(16);
 
     // 处于草稿状态的数据
-    private List<AnimalDataDto> animalDataDtoDraftList;
+    private List<AnimalDataDto> animalDataDtoDraftList = new ArrayList<>(16);
 
     // 已完成测量的数据中符合用户过滤条件的部分
     private List<AnimalDataDto> animalDataDtoFilterList;
