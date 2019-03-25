@@ -119,10 +119,10 @@ public class MainActivity extends AppCompatActivity {
 
         initNavigationView();
         initBottomNavigationBar();
-        initSpinner();
         initSearchView();
         initRecycleView();
         initSwipeRefreshLayout();
+        initSpinner();
     }
 
     private void initSwipeRefreshLayout() {
