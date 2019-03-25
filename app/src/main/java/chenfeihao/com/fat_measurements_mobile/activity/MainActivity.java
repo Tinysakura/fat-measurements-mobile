@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 import chenfeihao.com.fat_measurements_mobile.R;
@@ -126,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initSwipeRefreshLayout() {
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            initUserAnimalData();
+            initUserAnimalData(new CountDownLatch(1));
 
             animalDataAdapter.notifyDataSetChanged();
             swipeRefreshLayout.setRefreshing(false);
@@ -138,7 +139,9 @@ public class MainActivity extends AppCompatActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         mainRecyclerView.setLayoutManager(gridLayoutManager);
 
-        initUserAnimalData();
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+
+        initUserAnimalData(countDownLatch);
 
         //while (animalDataDtoFilterList != null) {
             animalDataAdapter = new AnimalDataAdapter(animalDataDtoFilterList);
@@ -155,9 +158,9 @@ public class MainActivity extends AppCompatActivity {
         mainRecyclerView.setAdapter(animalDataAdapter);
     }
 
-    private void initUserAnimalData() {
+    private void initUserAnimalData(CountDownLatch countDownLatch) {
         try {
-            animalDataHttpService.getUserAnimalData().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(animalDataDtoResponseView -> {
+            animalDataHttpService.getUserAnimalData().subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).subscribe(animalDataDtoResponseView -> {
                 LogUtil.V("获取用户动物数据成功");
 
                 List<AnimalDataDto> requestResult = animalDataDtoResponseView.getResult();
@@ -189,6 +192,8 @@ public class MainActivity extends AppCompatActivity {
                 LogUtil.V(JSON.toJSONString(animalDataDtoFilterList));
                 animalDataDtoDraftFilterList = dataFilter(animalDataDtoDraftList, publishTimeSelectItem, varietySelectItem);
                 LogUtil.V(JSON.toJSONString(animalDataDtoDraftFilterList));
+
+                countDownLatch.countDown();
             });
         } catch (Exception e) {
             LogUtil.V("获取用户动物数据失败");
