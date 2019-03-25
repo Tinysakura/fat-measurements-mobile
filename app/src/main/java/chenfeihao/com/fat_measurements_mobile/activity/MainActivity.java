@@ -127,8 +127,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void initSwipeRefreshLayout() {
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            initUserAnimalData(new CountDownLatch(1));
+            CountDownLatch countDownLatch = new CountDownLatch(1);
+            initUserAnimalData(countDownLatch);
 
+            countDownLatch.countDown();
             animalDataAdapter.notifyDataSetChanged();
             swipeRefreshLayout.setRefreshing(false);
         });
