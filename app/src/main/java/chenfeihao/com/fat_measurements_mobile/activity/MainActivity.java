@@ -98,8 +98,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initUI();
         initRetrofitClient();
+        initUI();
     }
 
     private void initRetrofitClient() {
