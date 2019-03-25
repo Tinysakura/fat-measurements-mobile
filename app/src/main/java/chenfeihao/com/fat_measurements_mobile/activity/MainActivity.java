@@ -74,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
      */
     private static final int SELECT_LOCAL_FILE = 3;
 
+    private Integer bottomBarSelectedPosition = 0;
+
     // 已完成测量的数据
     private List<AnimalDataDto> animalDataDtoList = new ArrayList<>(16);
 
@@ -321,6 +323,8 @@ public class MainActivity extends AppCompatActivity {
                 .setFirstSelectedPosition(0) //设置默认选中位置
                 .initialise();
 
+        bottomBarSelectedPosition = 0;
+
         bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int position) {
@@ -331,6 +335,7 @@ public class MainActivity extends AppCompatActivity {
                          */
                         reRenderRecycleView(animalDataDtoFilterList);
                         LogUtil.V("触发回调");
+                        bottomBarSelectedPosition = position;
                         break;
                     case 1:
                         /**
@@ -341,6 +346,7 @@ public class MainActivity extends AppCompatActivity {
                         intent.setType("*/*");//无类型限制
                         intent.addCategory(Intent.CATEGORY_OPENABLE);
                         startActivityForResult(intent, SELECT_LOCAL_FILE);
+                        bottomBarSelectedPosition = position;
 //                        Intent intent = new Intent(MainActivity.this, MeasureActivity.class);
 //                        startActivity(intent);
                         break;
@@ -349,6 +355,7 @@ public class MainActivity extends AppCompatActivity {
                          * 查看草稿状态的数据
                          */
                         reRenderRecycleView(animalDataDtoDraftFilterList);
+                        bottomBarSelectedPosition = position;
                         break;
                 }
             }
@@ -375,8 +382,14 @@ public class MainActivity extends AppCompatActivity {
         publishTimeSortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                sortedByTime(animalDataDtoFilterList, position);
-                sortedByTime(animalDataDtoDraftFilterList, position);
+                LogUtil.V("publishTime spinner select:" + position);
+                if (bottomBarSelectedPosition.equals(0)) {
+                    sortedByTime(animalDataDtoFilterList, position);
+                    reRenderRecycleView(animalDataDtoFilterList);
+                } else if (bottomBarSelectedPosition.equals(2)) {
+                    sortedByTime(animalDataDtoDraftFilterList, position);
+                    reRenderRecycleView(animalDataDtoDraftFilterList);
+                }
             }
 
             @Override
@@ -390,10 +403,16 @@ public class MainActivity extends AppCompatActivity {
         varietyFilterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                LogUtil.V("variety spinner select:" + position);
                 Integer publishTimeSelectItem = publishTimeSortSpinner.getSelectedItemPosition();
 
-                animalDataDtoFilterList = dataFilter(animalDataDtoList, publishTimeSelectItem, position);
-                animalDataDtoDraftFilterList = dataFilter(animalDataDtoDraftList, publishTimeSelectItem, position);
+                if (bottomBarSelectedPosition.equals(0)) {
+                    animalDataDtoFilterList = dataFilter(animalDataDtoList, publishTimeSelectItem, position);
+                    reRenderRecycleView(animalDataDtoFilterList);
+                } else if (bottomBarSelectedPosition.equals(2)) {
+                    animalDataDtoDraftFilterList = dataFilter(animalDataDtoDraftList, publishTimeSelectItem, position);
+                    reRenderRecycleView(animalDataDtoDraftFilterList);
+                }
             }
 
             @Override
