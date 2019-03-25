@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.bumptech.glide.Glide;
@@ -170,9 +171,11 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
+                LogUtil.V(JSON.toJSONString(animalDataDtoList));
 
                 requestResult.removeAll(animalDataDtoList);
                 animalDataDtoDraftList = requestResult;
+                LogUtil.V(JSON.toJSONString(animalDataDtoDraftList));
 
                 /**
                  * 根据用户的限制条件过滤出符合符合条件的数据
@@ -181,7 +184,9 @@ public class MainActivity extends AppCompatActivity {
                 Integer varietySelectItem = varietyFilterSpinner.getSelectedItemPosition();
 
                 animalDataDtoFilterList = dataFilter(animalDataDtoList, publishTimeSelectItem, varietySelectItem);
+                LogUtil.V(JSON.toJSONString(animalDataDtoFilterList));
                 animalDataDtoDraftFilterList = dataFilter(animalDataDtoDraftList, publishTimeSelectItem, varietySelectItem);
+                LogUtil.V(JSON.toJSONString(animalDataDtoDraftFilterList));
             });
         } catch (Exception e) {
             LogUtil.V("获取用户动物数据失败");
