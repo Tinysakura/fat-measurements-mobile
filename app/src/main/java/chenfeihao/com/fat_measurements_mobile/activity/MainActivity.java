@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
      * @return
      */
     private List<AnimalDataDto> dataFilter(List<AnimalDataDto> animalDataDtoList, Integer timeCondition, Integer varietyCondition) {
-        List<AnimalDataDto> resultDtoList = null;
+        List<AnimalDataDto> resultDtoList = animalDataDtoList;
 
         /**
          * 过滤品种
