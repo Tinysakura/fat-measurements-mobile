@@ -7,6 +7,7 @@
     </string-array>
 
     <string-array name="variety">
+        <item>全部品种</item>
         <item>大白猪</item>
         <item>长白猪</item>
         <item>杜洛克</item>

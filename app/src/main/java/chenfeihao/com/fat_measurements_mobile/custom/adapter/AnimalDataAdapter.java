@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import chenfeihao.com.fat_measurements_mobile.R;
@@ -33,6 +35,8 @@ public class AnimalDataAdapter extends RecyclerView.Adapter<AnimalDataAdapter.Vi
 
     private static String urlFormat = "http://%s.%s/%s";
 
+    private static SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+
     public AnimalDataAdapter(List<AnimalDataDto> animalDataDtoList) {
         this.animalDataDtoList = animalDataDtoList;
     }
@@ -42,8 +46,8 @@ public class AnimalDataAdapter extends RecyclerView.Adapter<AnimalDataAdapter.Vi
         ImageView cardImgView;
         TextView cardAnimalId;
         TextView cardAnimalSex;
-        TextView cardAnimalVarity;
-
+        TextView cardAnimalVariety;
+        TextView cardAnimalTime;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -52,7 +56,8 @@ public class AnimalDataAdapter extends RecyclerView.Adapter<AnimalDataAdapter.Vi
             cardImgView = cardView.findViewById(R.id.card_img_view);
             cardAnimalId = cardView.findViewById(R.id.card_animal_id);
             cardAnimalSex = cardView.findViewById(R.id.card_animal_sex);
-            cardAnimalVarity = cardView.findViewById(R.id.card_animal_variety);
+            cardAnimalVariety = cardView.findViewById(R.id.card_animal_variety);
+            cardAnimalTime = cardView.findViewById(R.id.card_animal_time);
         }
     }
 
@@ -79,7 +84,9 @@ public class AnimalDataAdapter extends RecyclerView.Adapter<AnimalDataAdapter.Vi
         }
         viewHolder.cardAnimalSex.setText(animalDataDto.getAnimalSex());
 
-        viewHolder.cardAnimalVarity.setText(animalVariety[Integer.parseInt(animalDataDto.getAnimalVariety().toString().substring(2, 3))]);
+        viewHolder.cardAnimalVariety.setText(animalVariety[Integer.parseInt(animalDataDto.getAnimalVariety().toString().substring(2, 3))]);
+
+        viewHolder.cardAnimalTime.setText(dataFormat.format(new Date(animalDataDto.getDbUpdateTime())));
 
         Glide.with(mContext).load(generateOssUrl(animalDataDto.getNosKey())).into(viewHolder.cardImgView);
     }

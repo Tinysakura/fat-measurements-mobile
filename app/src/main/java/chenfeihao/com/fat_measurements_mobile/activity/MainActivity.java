@@ -1,6 +1,5 @@
 package chenfeihao.com.fat_measurements_mobile.activity;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,10 +11,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.AdapterView;
-import android.support.v7.widget.SearchView;
-import android.widget.GridLayout;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -23,15 +22,16 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import chenfeihao.com.fat_measurements_mobile.R;
 import chenfeihao.com.fat_measurements_mobile.app.App;
 import chenfeihao.com.fat_measurements_mobile.constant.AnimalConstant;
 import chenfeihao.com.fat_measurements_mobile.custom.adapter.AnimalDataAdapter;
-import chenfeihao.com.fat_measurements_mobile.http.common.ResponseView;
 import chenfeihao.com.fat_measurements_mobile.http.retrofit.AnimalDataHttpService;
 import chenfeihao.com.fat_measurements_mobile.pojo.bo.MobileUser;
 import chenfeihao.com.fat_measurements_mobile.pojo.dto.AnimalDataDto;
@@ -40,7 +40,6 @@ import chenfeihao.com.fat_measurements_mobile.util.StringUtil;
 import chenfeihao.com.fat_measurements_mobile.util.UriPathSwitchUtil;
 import de.hdodenhof.circleimageview.CircleImageView;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
@@ -81,7 +80,15 @@ public class MainActivity extends AppCompatActivity {
     // 处于草稿状态的数据
     private List<AnimalDataDto> animalDataDtoDraftList;
 
+    // 已完成测量的数据中符合用户过滤条件的部分
+    private List<AnimalDataDto> animalDataDtoFilterList;
+
+    // 处于草稿状态的数据中符合用户过滤条件的部分
+    private List<AnimalDataDto> animalDataDtoDraftFilterList;
+
     private AnimalDataAdapter animalDataAdapter;
+
+    private static final Integer[] animalVarietyArray = new Integer[]{101, 102, 103};
 
     /**
      * retrofit
@@ -124,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
         initUserAnimalData();
 
-        animalDataAdapter = new AnimalDataAdapter(animalDataDtoList);
+        animalDataAdapter = new AnimalDataAdapter(animalDataDtoFilterList);
         mainRecyclerView.setAdapter(animalDataAdapter);
     }
 
@@ -158,10 +165,87 @@ public class MainActivity extends AppCompatActivity {
 
                 requestResult.removeAll(animalDataDtoList);
                 animalDataDtoDraftList = requestResult;
+
+                /**
+                 * 根据用户的限制条件过滤出符合符合条件的数据
+                 */
+                Integer publishTimeSelectItem = publishTimeSortSpinner.getSelectedItemPosition();
+                Integer varietySelectItem = varietyFilterSpinner.getSelectedItemPosition();
+
+                animalDataDtoFilterList = dataFilter(animalDataDtoList, publishTimeSelectItem, varietySelectItem);
+                animalDataDtoDraftFilterList = dataFilter(animalDataDtoDraftList, publishTimeSelectItem, varietySelectItem);
             });
         } catch (Exception e) {
             LogUtil.V("获取用户动物数据失败");
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 过滤出符合条件的数据
+     *
+     * @param animalDataDtoList 原始数据
+     * @param timeCondition     时间条件
+     * @param varietyCondition  品种条件
+     * @return
+     */
+    private List<AnimalDataDto> dataFilter(List<AnimalDataDto> animalDataDtoList, Integer timeCondition, Integer varietyCondition) {
+        List<AnimalDataDto> resultDtoList = null;
+
+        /**
+         * 过滤品种
+         * varietyCondition为0时表示为全部品种，此时不需要过滤
+         */
+        if (!varietyCondition.equals(0)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                resultDtoList = animalDataDtoList.stream().filter(e -> animalVarietyArray[varietyCondition - 1].equals(e.getAnimalVariety())).collect(Collectors.toList());
+            } else {
+                List<AnimalDataDto> shouldFilter = new ArrayList<>();
+
+                for (AnimalDataDto animalDataDto : animalDataDtoList) {
+                    if (!animalVarietyArray[varietyCondition - 1].equals(animalDataDto.getAnimalVariety())) {
+                        shouldFilter.add(animalDataDto);
+                    }
+                }
+
+                resultDtoList = new ArrayList<>(animalDataDtoList);
+                resultDtoList.removeAll(shouldFilter);
+            }
+        }
+
+        sortedByTime(resultDtoList, timeCondition);
+
+        return resultDtoList;
+    }
+
+    /**
+     * 按时间排序
+     * 0 不排序， 1 时间升序 2 时间倒序
+     */
+    private void sortedByTime(List<AnimalDataDto> resultDtoList, Integer timeCondition) {
+        switch (timeCondition) {
+            case 0:
+                break;
+            case 1:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    resultDtoList = resultDtoList.stream().sorted((e1, e2) -> {
+                        return e1.getDbUpdateTime().compareTo(e2.getDbCreateTime());
+                    }).collect(Collectors.toList());
+                } else {
+                    Collections.sort(resultDtoList, (o1, o2) -> o1.getDbUpdateTime().compareTo(o2.getDbUpdateTime()));
+                }
+                break;
+            case 2:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    resultDtoList = resultDtoList.stream().sorted((e1, e2) -> {
+                        return e2.getDbUpdateTime().compareTo(e1.getDbCreateTime());
+                    }).collect(Collectors.toList());
+                } else {
+                    Collections.sort(resultDtoList, (o1, o2) -> o2.getDbUpdateTime().compareTo(o1.getDbUpdateTime()));
+                }
+                break;
+            default:
+                break;
         }
     }
 
@@ -220,7 +304,7 @@ public class MainActivity extends AppCompatActivity {
                         /**
                          * 查看已测量完成的数据
                          */
-                        reRenderRecycleView(animalDataDtoList);
+                        reRenderRecycleView(animalDataDtoFilterList);
                         break;
                     case 1:
                         /**
@@ -238,7 +322,7 @@ public class MainActivity extends AppCompatActivity {
                         /**
                          * 查看草稿状态的数据
                          */
-                        reRenderRecycleView(animalDataDtoDraftList);
+                        reRenderRecycleView(animalDataDtoDraftFilterList);
                         break;
                 }
             }
@@ -265,7 +349,8 @@ public class MainActivity extends AppCompatActivity {
         publishTimeSortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                sortedByTime(animalDataDtoFilterList, position);
+                sortedByTime(animalDataDtoDraftFilterList, position);
             }
 
             @Override
@@ -279,7 +364,10 @@ public class MainActivity extends AppCompatActivity {
         varietyFilterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Integer publishTimeSelectItem = publishTimeSortSpinner.getSelectedItemPosition();
 
+                animalDataDtoFilterList = dataFilter(animalDataDtoList, publishTimeSelectItem, position);
+                animalDataDtoDraftFilterList = dataFilter(animalDataDtoDraftList, publishTimeSelectItem, position);
             }
 
             @Override
