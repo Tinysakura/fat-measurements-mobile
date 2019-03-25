@@ -140,10 +140,10 @@ public class MainActivity extends AppCompatActivity {
 
         initUserAnimalData();
 
-        while (animalDataDtoFilterList != null) {
+        //while (animalDataDtoFilterList != null) {
             animalDataAdapter = new AnimalDataAdapter(animalDataDtoFilterList);
             mainRecyclerView.setAdapter(animalDataAdapter);
-        }
+        //}
     }
 
     /**
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initUserAnimalData() {
         try {
-            animalDataHttpService.getUserAnimalData().subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).subscribe(animalDataDtoResponseView -> {
+            animalDataHttpService.getUserAnimalData().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(animalDataDtoResponseView -> {
                 LogUtil.V("获取用户动物数据成功");
 
                 List<AnimalDataDto> requestResult = animalDataDtoResponseView.getResult();
