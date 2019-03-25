@@ -140,13 +140,16 @@ public class MainActivity extends AppCompatActivity {
         mainRecyclerView.setLayoutManager(gridLayoutManager);
 
         CountDownLatch countDownLatch = new CountDownLatch(1);
+        try {
+            initUserAnimalData(countDownLatch);
 
-        initUserAnimalData(countDownLatch);
+            countDownLatch.await();
 
-        //while (animalDataDtoFilterList != null) {
             animalDataAdapter = new AnimalDataAdapter(animalDataDtoFilterList);
             mainRecyclerView.setAdapter(animalDataAdapter);
-        //}
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
