@@ -1,5 +1,7 @@
 package chenfeihao.com.fat_measurements_mobile.http.retrofit;
 
+import java.util.List;
+
 import chenfeihao.com.fat_measurements_mobile.http.common.ResponseView;
 import chenfeihao.com.fat_measurements_mobile.pojo.dto.AnimalDataDto;
 import chenfeihao.com.fat_measurements_mobile.pojo.dto.AnimalResultDto;
@@ -20,5 +22,8 @@ public interface AnimalDataHttpService {
 
     @POST("/a/submit/form/animal/data")
     Observable<ResponseView<AnimalDataDto>> saveAnimalDataForm(@Body RequestBody Body) throws Exception;
+
+    @GET("/a/query/user/animal/data")
+    Observable<ResponseView<List<AnimalDataDto>>> getUserAnimalData() throws Exception;
 
 }

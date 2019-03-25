@@ -1,17 +1,21 @@
 package chenfeihao.com.fat_measurements_mobile.activity;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.support.v7.widget.SearchView;
+import android.widget.GridLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -19,13 +23,25 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.bumptech.glide.Glide;
 
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 import chenfeihao.com.fat_measurements_mobile.R;
 import chenfeihao.com.fat_measurements_mobile.app.App;
+import chenfeihao.com.fat_measurements_mobile.constant.AnimalConstant;
+import chenfeihao.com.fat_measurements_mobile.custom.adapter.AnimalDataAdapter;
+import chenfeihao.com.fat_measurements_mobile.http.common.ResponseView;
+import chenfeihao.com.fat_measurements_mobile.http.retrofit.AnimalDataHttpService;
 import chenfeihao.com.fat_measurements_mobile.pojo.bo.MobileUser;
+import chenfeihao.com.fat_measurements_mobile.pojo.dto.AnimalDataDto;
 import chenfeihao.com.fat_measurements_mobile.util.LogUtil;
 import chenfeihao.com.fat_measurements_mobile.util.StringUtil;
 import chenfeihao.com.fat_measurements_mobile.util.UriPathSwitchUtil;
 import de.hdodenhof.circleimageview.CircleImageView;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,12 +75,30 @@ public class MainActivity extends AppCompatActivity {
      */
     private static final int SELECT_LOCAL_FILE = 3;
 
+    // 已完成测量的数据
+    private List<AnimalDataDto> animalDataDtoList;
+
+    // 处于草稿状态的数据
+    private List<AnimalDataDto> animalDataDtoDraftList;
+
+    private AnimalDataAdapter animalDataAdapter;
+
+    /**
+     * retrofit
+     */
+    private AnimalDataHttpService animalDataHttpService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         initUI();
+        initRetrofitClient();
+    }
+
+    private void initRetrofitClient() {
+        animalDataHttpService = getApp().getRetrofit().create(AnimalDataHttpService.class);
     }
 
     private void initUI(){
@@ -80,6 +114,46 @@ public class MainActivity extends AppCompatActivity {
         initBottomNavigationBar();
         initSpinner();
         initSearchView();
+        initRecycleView();
+    }
+
+    private void initRecycleView() {
+        // 两列
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        mainRecyclerView.setLayoutManager(gridLayoutManager);
+
+        initUserAnimalData();
+
+        animalDataAdapter = new AnimalDataAdapter(animalDataDtoList);
+        mainRecyclerView.setAdapter(animalDataAdapter);
+    }
+
+    private void initUserAnimalData() {
+        try {
+            animalDataHttpService.getUserAnimalData().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(animalDataDtoResponseView -> {
+                LogUtil.V("获取用户动物数据成功");
+
+                List<AnimalDataDto> requestResult = animalDataDtoResponseView.getResult();
+                /**
+                 * 开始分离完成状态与草稿状态的数据
+                 */
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    animalDataDtoList = requestResult.stream().filter(e -> AnimalConstant.AnimalDraftEnum.NOT_DRAFT.getCode().equals(e.getAnimalDraft())).collect(Collectors.toList());
+                } else {
+                    for (AnimalDataDto animalDataDto : requestResult) {
+                        if (AnimalConstant.AnimalDraftEnum.NOT_DRAFT.getCode().equals(animalDataDto.getAnimalDraft())) {
+                            animalDataDtoList.add(animalDataDto);
+                        }
+                    }
+                }
+
+                requestResult.removeAll(animalDataDtoList);
+                animalDataDtoDraftList = requestResult;
+            });
+        } catch (Exception e) {
+            LogUtil.V("获取用户动物数据失败");
+            e.printStackTrace();
+        }
     }
 
     private void initSearchView() {
