@@ -604,7 +604,7 @@ public class MainActivity extends AppCompatActivity {
     private void showBadgeView(int viewIndex, int showNumber) {
         // 具体child的查找和view的嵌套结构请在源码中查看
         // 从bottomNavigationView中获得BottomNavigationMenuView
-        BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavigationBar.getChildAt(0);
+        BottomNavigationBar menuView = (BottomNavigationBar) bottomNavigationBar.getChildAt(0);
         // 从BottomNavigationMenuView中获得childview, BottomNavigationItemView
         if (viewIndex < menuView.getChildCount()) {
             // 获得viewIndex对应子tab
