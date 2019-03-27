@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.ashokvarma.bottomnavigation.utils.Utils;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
@@ -28,6 +29,7 @@ import chenfeihao.com.fat_measurements_mobile.http.retrofit.AnimalDataHttpServic
 import chenfeihao.com.fat_measurements_mobile.http.retrofit.AnimalResultHttpService;
 import chenfeihao.com.fat_measurements_mobile.pojo.dto.AnimalDataDto;
 import chenfeihao.com.fat_measurements_mobile.pojo.dto.AnimalResultDto;
+import chenfeihao.com.fat_measurements_mobile.util.ButtonUtil;
 import chenfeihao.com.fat_measurements_mobile.util.LogUtil;
 import chenfeihao.com.fat_measurements_mobile.util.OssUtil;
 import chenfeihao.com.fat_measurements_mobile.util.StringUtil;
@@ -157,7 +159,10 @@ public class MeasureActivity extends AppCompatActivity {
 
         measureSaveDraftTextView.setOnClickListener(v -> {
             try {
-                measureSaveDraftTextView.setClickable(false);
+                if (ButtonUtil.isFastDoubleClick()) {
+                    return;
+                }
+
                 RequestBody requestBody = requestBodyBuild();
 
                 animalDataHttpService.saveAnimalDataForm(requestBody).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(animalResultDtoResponseView -> {
@@ -174,8 +179,6 @@ public class MeasureActivity extends AppCompatActivity {
             } catch (Exception e) {
                 LogUtil.V("动物数据表单上传失败");
                 e.printStackTrace();
-            } finally {
-                measureSaveDraftTextView.setClickable(true);
             }
         });
     }
@@ -185,7 +188,6 @@ public class MeasureActivity extends AppCompatActivity {
 
         measureSubmitTextView.setOnClickListener(v -> {
             try {
-                measureSubmitTextView.setClickable(false);
                 RequestBody requestBody = requestBodyBuild();
 
                 ProgressDialog progressDialog = new ProgressDialog(this);
@@ -219,8 +221,6 @@ public class MeasureActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                         LogUtil.V("动物数据测量失败");
-                    } finally {
-                        measureSubmitTextView.setClickable(true);
                     }
                 });
             } catch (Exception e) {
