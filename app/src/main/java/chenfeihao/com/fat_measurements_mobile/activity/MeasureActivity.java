@@ -101,6 +101,10 @@ public class MeasureActivity extends AppCompatActivity {
 
         AnimalDataDto draftData = JSON.parseObject(intent.getStringExtra("animal_data_draft"), AnimalDataDto.class);
 
+        if (draftData == null) {
+            return;
+        }
+
         measureAnimalIdEditText.setText(draftData.getAnimalId());
         measureAnimalWeightEditText.setText(draftData.getAnimalWeight().toString());
         measureAnimalVarietySpinner.setSelection(Integer.parseInt(String.valueOf(draftData.getAnimalVariety()).substring(2, 3)));
