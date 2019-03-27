@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.bumptech.glide.Glide;
@@ -42,7 +42,6 @@ import chenfeihao.com.fat_measurements_mobile.util.LogUtil;
 import chenfeihao.com.fat_measurements_mobile.util.StringUtil;
 import chenfeihao.com.fat_measurements_mobile.util.UriPathSwitchUtil;
 import de.hdodenhof.circleimageview.CircleImageView;
-import q.rorbin.badgeview.QBadgeView;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
@@ -73,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationBar bottomNavigationBar;
 
     private ImageView emptySearchResultImageView;
+
+    BottomNavigationItem[] bottomNavigationItemArray;
 
     /**
      * data
@@ -125,12 +126,19 @@ public class MainActivity extends AppCompatActivity {
         searchView = findViewById(R.id.main_search_view);
         emptySearchResultImageView = findViewById(R.id.main_empty_search_result);
 
+        initBottomNavigationItem();
         initRecycleView();
         initNavigationView();
         initBottomNavigationBar();
         initSearchView();
         initSwipeRefreshLayout();
         initSpinner();
+    }
+
+    private void initBottomNavigationItem() {
+        bottomNavigationItemArray = new BottomNavigationItem[]{new BottomNavigationItem(R.mipmap.measure_success, "已测量"),
+                new BottomNavigationItem(R.mipmap.measure, "测量"),
+                new BottomNavigationItem(R.mipmap.measure_draft, "草稿")};
     }
 
     private void initSwipeRefreshLayout() {
@@ -392,14 +400,10 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationBar.clearAll();
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_DEFAULT);
 
-        BottomNavigationItem[] bottomNavigationItemArray = {new BottomNavigationItem(R.mipmap.measure_success, "已测量"),
-                new BottomNavigationItem(R.mipmap.measure, "测量"),
-                new BottomNavigationItem(R.mipmap.measure_draft, "草稿")};
-
         bottomNavigationBar.addItem(bottomNavigationItemArray[0])
                 .addItem(bottomNavigationItemArray[1])
                 .addItem(bottomNavigationItemArray[2])
-                .setActiveColor(R.color.darkGray)
+                .setActiveColor(R.color.colorPrimaryDark)
                 .setInActiveColor(R.color.darkGray)
                 .setFirstSelectedPosition(0) //设置默认选中位置
                 .initialise();
@@ -602,25 +606,16 @@ public class MainActivity extends AppCompatActivity {
      * @param showNumber
      */
     private void showBadgeView(int viewIndex, int showNumber) {
-        // 具体child的查找和view的嵌套结构请在源码中查看
-        // 从bottomNavigationView中获得BottomNavigationMenuView
-        BottomNavigationBar menuView = (BottomNavigationBar) bottomNavigationBar.getChildAt(0);
-        // 从BottomNavigationMenuView中获得childview, BottomNavigationItemView
-        if (viewIndex < menuView.getChildCount()) {
-            // 获得viewIndex对应子tab
-            View view = menuView.getChildAt(viewIndex);
-            // 从子tab中获得其中显示图片的ImageView
-            View icon = view.findViewById(android.support.design.R.id.icon);
-            // 获得图标的宽度
-            int iconWidth = icon.getWidth();
-            // 获得tab的宽度/2
-            int tabWidth = view.getWidth() / 2;
-            // 计算badge要距离右边的距离
-            int spaceWidth = tabWidth - iconWidth;
+        BadgeItem badge=new BadgeItem()
+                .setBorderWidth(2)//Badge的Border(边界)宽度
+//                .setBorderColor("#FF0000")//Badge的Border颜色
+                .setBackgroundColor("#FF0000")//Badge背景颜色
+                .setText(showNumber + "")//显示的文本
+                .setTextColor("#FFFFFF")//文本颜色
+//                .setAnimationDuration(2000)
+                .setHideOnSelect(false);//当选中状态时消失，非选中状态显示
 
-            // 显示badegeview
-            new QBadgeView(this).bindTarget(view).setGravityOffset(spaceWidth, 3, false).setBadgeNumber(showNumber);
-        }
+        bottomNavigationItemArray[viewIndex].setBadgeItem(badge);
     }
 
     private App getApp() {
