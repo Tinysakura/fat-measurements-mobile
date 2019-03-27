@@ -151,7 +151,21 @@ public class MainActivity extends AppCompatActivity {
             initUserAnimalData(countDownLatch);
 
             countDownLatch.countDown();
-            animalDataAdapter.notifyDataSetChanged();
+//            animalDataAdapter.notifyDataSetChanged();
+
+
+            showBadgeView(0, animalDataDtoList.size());
+            showBadgeView(2, animalDataDtoDraftList.size());
+
+            switch (bottomBarSelectedPosition) {
+                case 0:
+                    reRenderRecycleView(animalDataDtoFilterList);
+                    break;
+                case 2:
+                    reRenderRecycleView(animalDataDtoDraftFilterList);
+                    break;
+            }
+
             swipeRefreshLayout.setRefreshing(false);
         });
     }
@@ -172,8 +186,8 @@ public class MainActivity extends AppCompatActivity {
             animalDataAdapter = new AnimalDataAdapter(animalDataDtoFilterList);
             mainRecyclerView.setAdapter(animalDataAdapter);
 
-            showBadgeView(0, animalDataDtoFilterList.size());
-            showBadgeView(2, animalDataDtoDraftFilterList.size());
+            showBadgeView(0, animalDataDtoList.size());
+            showBadgeView(2, animalDataDtoDraftList.size());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
