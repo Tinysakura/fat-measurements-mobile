@@ -239,8 +239,8 @@ public class MeasureActivity extends AppCompatActivity {
                 .addFormDataPart("animalId", animalId)
                 .addFormDataPart("animalWeight", animalWeight.toString())
                 .addFormDataPart("animalSex", animalSex + "")
-                .addFormDataPart("animalVariety", animalVariety + "")
-                .addFormDataPart("animalBUltrasound", bUltrasoundFile.getName(), RequestBody.create(MediaType.parse("image/*"), bUltrasoundFile));
+                .addFormDataPart("animalVariety", animalVariety + "");
+                // .addFormDataPart("animalBUltrasound", bUltrasoundFile.getName(), RequestBody.create(MediaType.parse("image/*"), bUltrasoundFile));
 
         if (animalDataId != null) {
             builder.addFormDataPart("id", animalDataId + "");
