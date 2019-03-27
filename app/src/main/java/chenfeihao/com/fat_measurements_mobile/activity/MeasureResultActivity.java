@@ -10,6 +10,8 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import java.math.RoundingMode;
+import java.util.Optional;
+import java.util.concurrent.CountDownLatch;
 
 import chenfeihao.com.fat_measurements_mobile.R;
 import chenfeihao.com.fat_measurements_mobile.app.App;
@@ -99,30 +101,30 @@ public class MeasureResultActivity extends AppCompatActivity {
         leanRateTextView = findViewById(R.id.measure_result_lean_rate);
         fatRateTextView = findViewById(R.id.measure_result_fat_rate);
 
-        renderData();
+        renderDataLocal();
     }
 
-    private AnimalResultDto renderDataRemote() {
+    private void renderDataRemote() {
         Intent intent = getIntent();
-        Long animalDataId = Long.valueOf(intent.getStringExtra("animal_data_id"));
-
-        final AnimalResultDto[] resultDto = {new AnimalResultDto()};
+        Long animalDataId = intent.getLongExtra("animal_data_id", 0);
 
         try {
             animalResultHttpService.queryByAnimalDataId(animalDataId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(animalResultDtoResponseView -> {
                 LogUtil.V("请求指定animal_data_id对应的测量数据成功");
 
-                resultDto[0] = animalResultDtoResponseView.getResult();
+                try {
+                    renderData(animalResultDtoResponseView.getResult());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             });
         } catch (Exception e) {
             LogUtil.V("请求指定animal_data_id对应的测量数据失败");
             e.printStackTrace();
         }
-
-        return resultDto[0];
     }
 
-    private void renderData() {
+    private void renderDataLocal() {
         Intent intent = getIntent();
         String resultJson = intent.getStringExtra("measure_finish_result");
 
@@ -132,13 +134,21 @@ public class MeasureResultActivity extends AppCompatActivity {
          * 尝试从服务器请求对应的测量数据
          */
         if (StringUtil.isEmpty(resultJson)) {
-            measureResult = renderDataRemote();
+            renderDataRemote();
         } else {
             Gson gson = new Gson();
-
             measureResult = gson.fromJson(resultJson, AnimalResultDto.class);
-        }
 
+            try {
+                renderData(measureResult);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void renderData(AnimalResultDto measureResult) throws Exception {
+        Intent intent = getIntent();
         /**
          * 可以直接填充的值
          */
