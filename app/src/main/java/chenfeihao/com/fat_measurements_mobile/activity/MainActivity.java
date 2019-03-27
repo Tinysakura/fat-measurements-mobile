@@ -131,9 +131,9 @@ public class MainActivity extends AppCompatActivity {
         emptySearchResultImageView = findViewById(R.id.main_empty_search_result);
 
         initBottomNavigationItem();
-        // initRecycleView();
+        //initRecycleView();
         initNavigationView();
-        initBottomNavigationBar();
+        //initBottomNavigationBar();
         initSearchView();
         initSwipeRefreshLayout();
         initSpinner();
@@ -157,6 +157,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initRecycleView() {
+        mainRecyclerView.removeAllViews();
+
         // 两列
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         mainRecyclerView.setLayoutManager(gridLayoutManager);
@@ -169,6 +171,9 @@ public class MainActivity extends AppCompatActivity {
 
             animalDataAdapter = new AnimalDataAdapter(animalDataDtoFilterList);
             mainRecyclerView.setAdapter(animalDataAdapter);
+
+            showBadgeView(0, animalDataDtoFilterList.size());
+            showBadgeView(2, animalDataDtoDraftFilterList.size());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -191,6 +196,9 @@ public class MainActivity extends AppCompatActivity {
         try {
             animalDataHttpService.getUserAnimalData().subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).subscribe(animalDataDtoResponseView -> {
                 LogUtil.V("获取用户动物数据成功");
+
+                animalDataDtoList.clear();
+                animalDataDtoDraftList.clear();
 
                 List<AnimalDataDto> requestResult = animalDataDtoResponseView.getResult();
                 /**
@@ -410,8 +418,8 @@ public class MainActivity extends AppCompatActivity {
 
         bottomBarSelectedPosition = 0;
 
-        showBadgeView(0, animalDataDtoFilterList.size());
-        showBadgeView(2, animalDataDtoDraftFilterList.size());
+//        showBadgeView(0, animalDataDtoFilterList.size());
+//        showBadgeView(2, animalDataDtoDraftFilterList.size());
 
         bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override
@@ -569,6 +577,7 @@ public class MainActivity extends AppCompatActivity {
         jump2Login();
 
         renderNavHeaderView();
+
         initRecycleView();
         initBottomNavigationBar();
     }

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -99,7 +100,8 @@ public class MeasureActivity extends AppCompatActivity {
     private void preFill() {
         Intent intent = getIntent();
 
-        AnimalDataDto draftData = JSON.parseObject(intent.getStringExtra("animal_data_draft"), AnimalDataDto.class);
+        Gson gson = new Gson();
+        AnimalDataDto draftData = gson.fromJson(intent.getStringExtra("animal_data_draft"), AnimalDataDto.class);
 
         if (draftData == null) {
             return;
@@ -142,10 +144,12 @@ public class MeasureActivity extends AppCompatActivity {
      * 重新选择B超文件
      */
     private void initBUltrasoundReplaceTextView() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*");//无类型限制
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(intent, SELECT_LOCAL_FILE);
+        bUltrasoundReplaceTextView.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");//无类型限制
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            startActivityForResult(intent, SELECT_LOCAL_FILE);
+        });
     }
 
     private void initMeasureSaveDraftTextView() {
