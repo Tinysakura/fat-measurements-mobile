@@ -231,7 +231,7 @@ public class MeasureActivity extends AppCompatActivity {
 
         String animalId = measureAnimalIdEditText.getText().toString();
         BigDecimal animalWeight = StringUtil.isEmpty(measureAnimalWeightEditText.getText().toString()) ? new BigDecimal(0) : new BigDecimal(measureAnimalWeightEditText.getText().toString());
-        Integer animalVariety = animalVarietyArray[measureAnimalVarietySpinner.getSelectedItemPosition()];
+        Integer animalVariety = animalVarietyArray[measureAnimalVarietySpinner.getSelectedItemPosition() - 1];
         Integer animalSex = animalSexArray[measureAnimalSexSpinner.getSelectedItemPosition()];
 
         MultipartBody.Builder builder = new MultipartBody.Builder()
