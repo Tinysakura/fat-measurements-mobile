@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         emptySearchResultImageView = findViewById(R.id.main_empty_search_result);
 
         initBottomNavigationItem();
-        initRecycleView();
+        // initRecycleView();
         initNavigationView();
         initBottomNavigationBar();
         initSearchView();
