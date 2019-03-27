@@ -45,7 +45,7 @@
                 android:gravity="right|center"
                 android:id="@+id/setting_theme_text"
                 android:theme="@style/MyEditText"
-                android:text="测试"
+                android:text="星空绿"
                 android:background="@null"/>
         </LinearLayout>
     </LinearLayout>
@@ -79,7 +79,7 @@
                 android:gravity="right|center"
                 android:id="@+id/setting_push_text"
                 android:theme="@style/MyEditText"
-                android:text="测试"
+                android:text="开启"
                 android:background="@null"/>
         </LinearLayout>
     </LinearLayout>

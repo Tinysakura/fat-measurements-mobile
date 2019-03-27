@@ -68,8 +68,22 @@
             app:layout_constraintTop_toBottomOf="@id/main_filter_top_bar"
             android:background="@color/colorGray1" />
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintVertical_bias="0.5"
+            android:visibility="invisible"
+            android:id="@+id/main_empty_search_result"
+            android:src="@mipmap/empty"/>
+
         <!--主体内容-->
         <android.support.v4.widget.SwipeRefreshLayout
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.8"
@@ -81,6 +95,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/main_recycler_view">
+
 
             </android.support.v7.widget.RecyclerView>
 

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -23,6 +25,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -39,7 +42,7 @@ import chenfeihao.com.fat_measurements_mobile.util.LogUtil;
 import chenfeihao.com.fat_measurements_mobile.util.StringUtil;
 import chenfeihao.com.fat_measurements_mobile.util.UriPathSwitchUtil;
 import de.hdodenhof.circleimageview.CircleImageView;
-import rx.android.schedulers.AndroidSchedulers;
+import q.rorbin.badgeview.QBadgeView;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
@@ -68,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mainRecyclerView;
 
     private BottomNavigationBar bottomNavigationBar;
+
+    private ImageView emptySearchResultImageView;
 
     /**
      * data
@@ -118,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         mainRecyclerView = findViewById(R.id.main_recycler_view);
         bottomNavigationBar = findViewById(R.id.main_bottom_bar);
         searchView = findViewById(R.id.main_search_view);
+        emptySearchResultImageView = findViewById(R.id.main_empty_search_result);
 
         initRecycleView();
         initNavigationView();
@@ -158,11 +164,15 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * 使用新的数据重新渲染recycleView
+     * 更新角标
      * @param data
      */
     private void reRenderRecycleView(List<AnimalDataDto> data) {
         animalDataAdapter = new AnimalDataAdapter(data);
         mainRecyclerView.setAdapter(animalDataAdapter);
+
+        showBadgeView(0, animalDataDtoFilterList.size());
+        showBadgeView(2, animalDataDtoDraftFilterList.size());
     }
 
     private void initUserAnimalData(CountDownLatch countDownLatch) {
@@ -280,14 +290,85 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                AnimalDataDto result = findAnimalDataDtoById(query);
+
+                if (result == null) {
+                    emptySearchResultImageView.setVisibility(View.VISIBLE);
+                    mainRecyclerView.setVisibility(View.INVISIBLE);
+                } else {
+                    switch (bottomBarSelectedPosition) {
+                        case 0:
+                            animalDataDtoFilterList = Arrays.asList(result);
+                            reRenderRecycleView(animalDataDtoFilterList);
+                            break;
+                        case 2:
+                            animalDataDtoDraftFilterList = Arrays.asList(result);
+                            reRenderRecycleView(animalDataDtoDraftFilterList);
+                            break;
+                    }
+                }
+
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;
+                if (StringUtil.isEmpty(newText)) {
+                    emptySearchResultImageView.setVisibility(View.INVISIBLE);
+                    mainRecyclerView.setVisibility(View.VISIBLE);
+                }
+
+                AnimalDataDto result = findAnimalDataDtoById(newText);
+
+                if (result == null) {
+                    emptySearchResultImageView.setVisibility(View.VISIBLE);
+                    mainRecyclerView.setVisibility(View.INVISIBLE);
+                } else {
+                    switch (bottomBarSelectedPosition) {
+                        case 0:
+                            animalDataDtoFilterList = Arrays.asList(result);
+                            reRenderRecycleView(animalDataDtoFilterList);
+                            break;
+                        case 2:
+                            animalDataDtoDraftFilterList = Arrays.asList(result);
+                            reRenderRecycleView(animalDataDtoDraftFilterList);
+                            break;
+                    }
+                }
+
+                return true;
             }
         });
+
+//        searchView.setOnFocusChangeListener((v, hasFocus) -> {
+//
+//        });
+    }
+
+    /**
+     * 根据动物id查询指定的测量信息
+     * @param animalId
+     * @return
+     */
+    private AnimalDataDto findAnimalDataDtoById(String animalId) {
+        switch (bottomBarSelectedPosition) {
+            case 0:
+                for (AnimalDataDto animalDataDto : animalDataDtoFilterList) {
+                    if (animalDataDto.getAnimalId().equals(animalId)) {
+                        return animalDataDto;
+                    }
+                }
+                break;
+            case 2:
+                for (AnimalDataDto animalDataDto : animalDataDtoDraftFilterList) {
+                    if (animalDataDto.getAnimalId().equals(animalId)) {
+                        return animalDataDto;
+                    }
+                }
+                break;
+        }
+
+        return null;
     }
 
     private void initNavigationView() {
@@ -324,6 +405,9 @@ public class MainActivity extends AppCompatActivity {
                 .initialise();
 
         bottomBarSelectedPosition = 0;
+
+        showBadgeView(0, animalDataDtoFilterList.size());
+        showBadgeView(2, animalDataDtoDraftFilterList.size());
 
         bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override
@@ -458,6 +542,10 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.nav_data:
+                    /**
+                     * 在MainActivity隐藏NavigationView
+                     */
+                    navigationView.setVisibility(View.INVISIBLE);
                     break;
                 case R.id.nav_account:
                     break;
@@ -505,6 +593,33 @@ public class MainActivity extends AppCompatActivity {
                 default:
                     break;
             }
+        }
+    }
+
+    /**
+     * 在bottomNavigationBar的指定tab上显示角标
+     * @param viewIndex
+     * @param showNumber
+     */
+    private void showBadgeView(int viewIndex, int showNumber) {
+        // 具体child的查找和view的嵌套结构请在源码中查看
+        // 从bottomNavigationView中获得BottomNavigationMenuView
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavigationBar.getChildAt(0);
+        // 从BottomNavigationMenuView中获得childview, BottomNavigationItemView
+        if (viewIndex < menuView.getChildCount()) {
+            // 获得viewIndex对应子tab
+            View view = menuView.getChildAt(viewIndex);
+            // 从子tab中获得其中显示图片的ImageView
+            View icon = view.findViewById(android.support.design.R.id.icon);
+            // 获得图标的宽度
+            int iconWidth = icon.getWidth();
+            // 获得tab的宽度/2
+            int tabWidth = view.getWidth() / 2;
+            // 计算badge要距离右边的距离
+            int spaceWidth = tabWidth - iconWidth;
+
+            // 显示badegeview
+            new QBadgeView(this).bindTarget(view).setGravityOffset(spaceWidth, 3, false).setBadgeNumber(showNumber);
         }
     }
 
