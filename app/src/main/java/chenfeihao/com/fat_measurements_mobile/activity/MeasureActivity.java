@@ -246,6 +246,10 @@ public class MeasureActivity extends AppCompatActivity {
             builder.addFormDataPart("id", animalDataId + "");
         }
 
+        if (bUltrasoundFile != null) {
+            builder.addFormDataPart("animalBUltrasound", bUltrasoundFile.getName(), RequestBody.create(MediaType.parse("image/*"), bUltrasoundFile));
+        }
+
         RequestBody requestBody = builder.build();
 
         return requestBody;
