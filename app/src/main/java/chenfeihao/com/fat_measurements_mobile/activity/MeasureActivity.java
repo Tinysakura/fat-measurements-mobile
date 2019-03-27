@@ -1,8 +1,11 @@
 package chenfeihao.com.fat_measurements_mobile.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,9 +25,12 @@ import chenfeihao.com.fat_measurements_mobile.custom.layout.TitleLayout;
 import chenfeihao.com.fat_measurements_mobile.http.common.ResponseView;
 import chenfeihao.com.fat_measurements_mobile.http.retrofit.AnimalDataHttpService;
 import chenfeihao.com.fat_measurements_mobile.http.retrofit.AnimalResultHttpService;
+import chenfeihao.com.fat_measurements_mobile.pojo.dto.AnimalDataDto;
 import chenfeihao.com.fat_measurements_mobile.pojo.dto.AnimalResultDto;
 import chenfeihao.com.fat_measurements_mobile.util.LogUtil;
+import chenfeihao.com.fat_measurements_mobile.util.OssUtil;
 import chenfeihao.com.fat_measurements_mobile.util.StringUtil;
+import chenfeihao.com.fat_measurements_mobile.util.UriPathSwitchUtil;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -43,9 +49,9 @@ public class MeasureActivity extends AppCompatActivity {
 
     private EditText measureAnimalIdEditText;
 
-    private Spinner measureAnimalVarietySpiner;
+    private Spinner measureAnimalVarietySpinner;
 
-    private Spinner measureAnimalSexSpiner;
+    private Spinner measureAnimalSexSpinner;
 
     private EditText measureAnimalWeightEditText;
 
@@ -57,10 +63,14 @@ public class MeasureActivity extends AppCompatActivity {
 
     private TextView measureBUltrasoundFileNameTextView;
 
+    private TextView bUltrasoundReplaceTextView;
+
     /**
      * data
      */
     private File bUltrasoundFile;
+
+    private static final int SELECT_LOCAL_FILE = 3;
 
     private static final Integer[] animalVarietyArray = new Integer[]{101, 102, 103};
 
@@ -79,7 +89,25 @@ public class MeasureActivity extends AppCompatActivity {
         setContentView(R.layout.activity_measure);
 
         initUI();
+        preFill();
         initRetrofitClient();
+    }
+
+    /**
+     * 预填草稿数据
+     */
+    private void preFill() {
+        Intent intent = getIntent();
+
+        AnimalDataDto draftData = JSON.parseObject(intent.getStringExtra("animal_data_draft"), AnimalDataDto.class);
+
+        measureAnimalIdEditText.setText(draftData.getAnimalId());
+        measureAnimalWeightEditText.setText(draftData.getAnimalWeight().toString());
+        measureAnimalVarietySpinner.setSelection(Integer.parseInt(String.valueOf(draftData.getAnimalVariety()).substring(2, 3)));
+        measureAnimalSexSpinner.setSelection(draftData.getAnimalSex());
+
+        Glide.with(this).load(OssUtil.generateOssUrl(draftData.getNosKey())).into(measureBUltrasoundImageView);
+        measureBUltrasoundFileNameTextView.setText(draftData.getNosKey());
     }
 
     private void initRetrofitClient() {
@@ -91,14 +119,29 @@ public class MeasureActivity extends AppCompatActivity {
     private void initUI() {
         measureAnimalIdEditText = findViewById(R.id.measure_animal_id);
         measureAnimalWeightEditText = findViewById(R.id.measure_animal_weight);
-        measureAnimalVarietySpiner = findViewById(R.id.measure_animal_variety);
-        measureAnimalSexSpiner = findViewById(R.id.measure_animal_sex);
+        measureAnimalVarietySpinner = findViewById(R.id.measure_animal_variety);
+        measureAnimalSexSpinner = findViewById(R.id.measure_animal_sex);
+        measureBUltrasoundImageView = findViewById(R.id.measure_b_ultrasound);
+        measureBUltrasoundFileNameTextView = findViewById(R.id.measure_b_ultrasound_file_name);
+        bUltrasoundReplaceTextView = findViewById(R.id.measure_b_ultrasound_replace);
 
         initCustomTitleLayout();
         initMeasureBUltrasoundRelated();
 
         initMeasureSaveDraftTextView();
         initMeasureSubmitTextView();
+
+        initBUltrasoundReplaceTextView();
+    }
+
+    /**
+     * 重新选择B超文件
+     */
+    private void initBUltrasoundReplaceTextView() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");//无类型限制
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(intent, SELECT_LOCAL_FILE);
     }
 
     private void initMeasureSaveDraftTextView() {
@@ -179,8 +222,8 @@ public class MeasureActivity extends AppCompatActivity {
 
         String animalId = measureAnimalIdEditText.getText().toString();
         BigDecimal animalWeight = StringUtil.isEmpty(measureAnimalWeightEditText.getText().toString()) ? new BigDecimal(0) : new BigDecimal(measureAnimalWeightEditText.getText().toString());
-        Integer animalVariety = animalVarietyArray[measureAnimalVarietySpiner.getSelectedItemPosition()];
-        Integer animalSex = animalSexArray[measureAnimalSexSpiner.getSelectedItemPosition()];
+        Integer animalVariety = animalVarietyArray[measureAnimalVarietySpinner.getSelectedItemPosition()];
+        Integer animalSex = animalSexArray[measureAnimalSexSpinner.getSelectedItemPosition()];
 
         MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
@@ -205,9 +248,6 @@ public class MeasureActivity extends AppCompatActivity {
     }
 
     private void initMeasureBUltrasoundRelated() {
-        measureBUltrasoundImageView = findViewById(R.id.measure_b_ultrasound);
-        measureBUltrasoundFileNameTextView = findViewById(R.id.measure_b_ultrasound_file_name);
-
         Intent intent = getIntent();
 
         String realPath = intent.getStringExtra("file_path");
@@ -223,4 +263,21 @@ public class MeasureActivity extends AppCompatActivity {
         return (App) getApplicationContext();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case SELECT_LOCAL_FILE:
+                    Uri uri = data.getData();
+                    String realPath = UriPathSwitchUtil.getPathByUri4kitkat(this, uri);
+
+                    bUltrasoundFile = new File(realPath);
+                    measureBUltrasoundFileNameTextView.setText(bUltrasoundFile.getName());
+                    Glide.with(this).load(bUltrasoundFile).into(measureBUltrasoundImageView);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }

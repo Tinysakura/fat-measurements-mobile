@@ -12,11 +12,18 @@ import com.google.gson.Gson;
 import java.math.RoundingMode;
 
 import chenfeihao.com.fat_measurements_mobile.R;
+import chenfeihao.com.fat_measurements_mobile.app.App;
 import chenfeihao.com.fat_measurements_mobile.constant.AnimalConstant;
 import chenfeihao.com.fat_measurements_mobile.custom.layout.TitleLayout;
+import chenfeihao.com.fat_measurements_mobile.http.common.ResponseView;
+import chenfeihao.com.fat_measurements_mobile.http.retrofit.AnimalResultHttpService;
 import chenfeihao.com.fat_measurements_mobile.pojo.dto.AnimalResultDto;
+import chenfeihao.com.fat_measurements_mobile.util.LogUtil;
 import chenfeihao.com.fat_measurements_mobile.util.StringUtil;
 import de.hdodenhof.circleimageview.CircleImageView;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 public class MeasureResultActivity extends AppCompatActivity {
 
@@ -60,12 +67,22 @@ public class MeasureResultActivity extends AppCompatActivity {
             "主人的猪猪已经很健康啦，快去向其他小伙伴分享养育心得吧。"
     };
 
+    /**
+     * retrofit
+     */
+    private AnimalResultHttpService animalResultHttpService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_measure_result);
 
+        initRetrofitClient();
         initUI();
+    }
+
+    private void initRetrofitClient() {
+        animalResultHttpService = getApp().getRetrofit().create(AnimalResultHttpService.class);
     }
 
     private void initUI() {
@@ -85,17 +102,42 @@ public class MeasureResultActivity extends AppCompatActivity {
         renderData();
     }
 
+    private AnimalResultDto renderDataRemote() {
+        Intent intent = getIntent();
+        Long animalDataId = Long.valueOf(intent.getStringExtra("animal_data_id"));
+
+        final AnimalResultDto[] resultDto = {new AnimalResultDto()};
+
+        try {
+            animalResultHttpService.queryByAnimalDataId(animalDataId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(animalResultDtoResponseView -> {
+                LogUtil.V("请求指定animal_data_id对应的测量数据成功");
+
+                resultDto[0] = animalResultDtoResponseView.getResult();
+            });
+        } catch (Exception e) {
+            LogUtil.V("请求指定animal_data_id对应的测量数据失败");
+            e.printStackTrace();
+        }
+
+        return resultDto[0];
+    }
+
     private void renderData() {
         Intent intent = getIntent();
         String resultJson = intent.getStringExtra("measure_finish_result");
 
+        AnimalResultDto measureResult;
+
+        /**
+         * 尝试从服务器请求对应的测量数据
+         */
         if (StringUtil.isEmpty(resultJson)) {
-            return;
+            measureResult = renderDataRemote();
+        } else {
+            Gson gson = new Gson();
+
+            measureResult = gson.fromJson(resultJson, AnimalResultDto.class);
         }
-
-        Gson gson = new Gson();
-
-        AnimalResultDto measureResult = gson.fromJson(resultJson, AnimalResultDto.class);
 
         /**
          * 可以直接填充的值
@@ -152,6 +194,10 @@ public class MeasureResultActivity extends AppCompatActivity {
     private void initCustomTitleLayout() {
         customTitleLayout = findViewById(R.id.measure_custom_title);
         customTitleLayout.setTitle("测量结果");
+    }
+
+    private App getApp() {
+        return (App) getApplicationContext();
     }
 }
 

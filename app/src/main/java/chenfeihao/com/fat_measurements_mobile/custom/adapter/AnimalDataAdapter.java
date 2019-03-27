@@ -1,6 +1,8 @@
 package chenfeihao.com.fat_measurements_mobile.custom.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.icu.util.Measure;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;
@@ -17,9 +20,15 @@ import java.util.Date;
 import java.util.List;
 
 import chenfeihao.com.fat_measurements_mobile.R;
+import chenfeihao.com.fat_measurements_mobile.activity.MeasureActivity;
+import chenfeihao.com.fat_measurements_mobile.activity.MeasureResultActivity;
 import chenfeihao.com.fat_measurements_mobile.constant.AnimalConstant;
+import chenfeihao.com.fat_measurements_mobile.constant.AnimalConstant.AnimalDraftEnum;
 import chenfeihao.com.fat_measurements_mobile.custom.OssConstant;
 import chenfeihao.com.fat_measurements_mobile.pojo.dto.AnimalDataDto;
+import chenfeihao.com.fat_measurements_mobile.util.OssUtil;
+
+import static chenfeihao.com.fat_measurements_mobile.constant.AnimalConstant.AnimalDraftEnum.*;
 
 /**
  * @Author: chenfeihao@corp.netease.com
@@ -32,8 +41,6 @@ public class AnimalDataAdapter extends RecyclerView.Adapter<AnimalDataAdapter.Vi
     private List<AnimalDataDto> animalDataDtoList;
 
     private static String[] animalVariety = {"大白猪", "长白猪", "杜洛克"};
-
-    private static String urlFormat = "http://%s.%s/%s";
 
     private static SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
 
@@ -89,15 +96,33 @@ public class AnimalDataAdapter extends RecyclerView.Adapter<AnimalDataAdapter.Vi
 
         viewHolder.cardAnimalTime.setText(dataFormat.format(new Date(animalDataDto.getDbUpdateTime())));
 
-        Glide.with(mContext).load(generateOssUrl(animalDataDto.getNosKey())).into(viewHolder.cardImgView);
+        Glide.with(mContext).load(OssUtil.generateOssUrl(animalDataDto.getNosKey())).into(viewHolder.cardImgView);
+
+        /**
+         * 设置点击事件
+         * 根据animalData的状态，若为已测量则跳转到MeasureResultActivity，否则跳入MeasureActivity
+         */
+        viewHolder.cardImgView.setOnClickListener(v -> {
+            switch (animalDataDto.getAnimalDraft()) {
+                case 0:
+                    Intent intent1 = new Intent(mContext, MeasureActivity.class);
+                    intent1.putExtra("animal_data_draft", JSON.toJSONString(animalDataDto));
+                    intent1.putExtra("animal_data_id", animalDataDto.getId());
+                    mContext.startActivity(intent1);
+
+                    break;
+                case 1:
+                    Intent intent2 = new Intent(mContext, MeasureResultActivity.class);
+                    intent2.putExtra("animal_data_id", animalDataDto.getId());
+                    mContext.startActivity(intent2);
+
+                    break;
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return animalDataDtoList.size();
-    }
-
-    private String generateOssUrl(String ossKey) {
-        return String.format(urlFormat, OssConstant.OSS_BUCKET_B_ULTRANSONIC, OssConstant.OSS_END_POINT, ossKey);
     }
 }

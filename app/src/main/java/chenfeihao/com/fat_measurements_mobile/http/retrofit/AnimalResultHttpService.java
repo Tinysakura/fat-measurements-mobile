@@ -13,4 +13,7 @@ import rx.Observable;
 public interface AnimalResultHttpService {
     @GET("/a/data/measure")
     Observable<ResponseView<AnimalResultDto>> measure(@Query("animalDataId") Long animalDataId) throws Exception;
+
+    @GET("/a/query/appoint/result")
+    Observable<ResponseView<AnimalResultDto>> queryByAnimalDataId(@Query("animalDataId") Long animalDataId) throws Exception;
 }
