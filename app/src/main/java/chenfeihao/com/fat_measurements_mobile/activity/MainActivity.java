@@ -569,9 +569,8 @@ public class MainActivity extends AppCompatActivity {
         jump2Login();
 
         renderNavHeaderView();
-        initBottomNavigationBar();
-
         initRecycleView();
+        initBottomNavigationBar();
     }
 
     private void jump2Login() {
