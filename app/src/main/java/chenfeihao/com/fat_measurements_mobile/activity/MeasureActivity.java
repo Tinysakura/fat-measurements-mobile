@@ -157,6 +157,7 @@ public class MeasureActivity extends AppCompatActivity {
 
         measureSaveDraftTextView.setOnClickListener(v -> {
             try {
+                measureSaveDraftTextView.setClickable(false);
                 RequestBody requestBody = requestBodyBuild();
 
                 animalDataHttpService.saveAnimalDataForm(requestBody).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(animalResultDtoResponseView -> {
@@ -173,6 +174,8 @@ public class MeasureActivity extends AppCompatActivity {
             } catch (Exception e) {
                 LogUtil.V("动物数据表单上传失败");
                 e.printStackTrace();
+            } finally {
+                measureSaveDraftTextView.setClickable(true);
             }
         });
     }
@@ -182,6 +185,7 @@ public class MeasureActivity extends AppCompatActivity {
 
         measureSubmitTextView.setOnClickListener(v -> {
             try {
+                measureSubmitTextView.setClickable(false);
                 RequestBody requestBody = requestBodyBuild();
 
                 ProgressDialog progressDialog = new ProgressDialog(this);
@@ -215,6 +219,8 @@ public class MeasureActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                         LogUtil.V("动物数据测量失败");
+                    } finally {
+                        measureSubmitTextView.setClickable(true);
                     }
                 });
             } catch (Exception e) {
