@@ -204,6 +204,7 @@ public class MeasureActivity extends AppCompatActivity {
                                 intent.putExtra("sex", animalSex);
 
                                 progressDialog.cancel();
+                                finish();
                                 startActivity(intent);
                             }
                         });

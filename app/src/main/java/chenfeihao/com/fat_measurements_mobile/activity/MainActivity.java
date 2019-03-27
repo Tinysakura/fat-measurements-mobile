@@ -570,6 +570,8 @@ public class MainActivity extends AppCompatActivity {
 
         renderNavHeaderView();
         initBottomNavigationBar();
+
+        initRecycleView();
     }
 
     private void jump2Login() {
