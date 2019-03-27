@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -49,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     /**
      * UI
      */
+    private DrawerLayout mainDrawerLayout;
+
     private NavigationView navigationView;
 
     private View navHeaderView;
@@ -117,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initUI(){
+        mainDrawerLayout = findViewById(R.id.main_drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         publishTimeSortSpinner = findViewById(R.id.publish_time_sort);
         varietyFilterSpinner = findViewById(R.id.variety_filter);
@@ -324,6 +328,8 @@ public class MainActivity extends AppCompatActivity {
                 if (StringUtil.isEmpty(newText)) {
                     emptySearchResultImageView.setVisibility(View.INVISIBLE);
                     mainRecyclerView.setVisibility(View.VISIBLE);
+
+                    return true;
                 }
 
                 AnimalDataDto result = findAnimalDataDtoById(newText);
@@ -549,7 +555,7 @@ public class MainActivity extends AppCompatActivity {
                     /**
                      * 在MainActivity隐藏NavigationView
                      */
-                    navigationView.setVisibility(View.INVISIBLE);
+                    mainDrawerLayout.closeDrawers();
                     break;
                 case R.id.nav_account:
                     break;
