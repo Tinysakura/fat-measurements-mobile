@@ -183,8 +183,8 @@ public class MainActivity extends AppCompatActivity {
         animalDataAdapter = new AnimalDataAdapter(data);
         mainRecyclerView.setAdapter(animalDataAdapter);
 
-        showBadgeView(0, animalDataDtoFilterList.size());
-        showBadgeView(2, animalDataDtoDraftFilterList.size());
+//        showBadgeView(0, animalDataDtoFilterList.size());
+//        showBadgeView(2, animalDataDtoDraftFilterList.size());
     }
 
     private void initUserAnimalData(CountDownLatch countDownLatch) {
@@ -308,16 +308,7 @@ public class MainActivity extends AppCompatActivity {
                     emptySearchResultImageView.setVisibility(View.VISIBLE);
                     mainRecyclerView.setVisibility(View.INVISIBLE);
                 } else {
-                    switch (bottomBarSelectedPosition) {
-                        case 0:
-                            animalDataDtoFilterList = Arrays.asList(result);
-                            reRenderRecycleView(animalDataDtoFilterList);
-                            break;
-                        case 2:
-                            animalDataDtoDraftFilterList = Arrays.asList(result);
-                            reRenderRecycleView(animalDataDtoDraftFilterList);
-                            break;
-                    }
+                    reRenderRecycleView(Arrays.asList(result));
                 }
 
                 return true;
@@ -326,6 +317,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (StringUtil.isEmpty(newText)) {
+                    switch (bottomBarSelectedPosition) {
+                        case 0:
+                            reRenderRecycleView(animalDataDtoFilterList);
+                            break;
+                        case 2:
+                            reRenderRecycleView(animalDataDtoDraftFilterList);
+                            break;
+                    }
+
                     emptySearchResultImageView.setVisibility(View.INVISIBLE);
                     mainRecyclerView.setVisibility(View.VISIBLE);
 
@@ -338,16 +338,10 @@ public class MainActivity extends AppCompatActivity {
                     emptySearchResultImageView.setVisibility(View.VISIBLE);
                     mainRecyclerView.setVisibility(View.INVISIBLE);
                 } else {
-                    switch (bottomBarSelectedPosition) {
-                        case 0:
-                            animalDataDtoFilterList = Arrays.asList(result);
-                            reRenderRecycleView(animalDataDtoFilterList);
-                            break;
-                        case 2:
-                            animalDataDtoDraftFilterList = Arrays.asList(result);
-                            reRenderRecycleView(animalDataDtoDraftFilterList);
-                            break;
-                    }
+                    reRenderRecycleView(Arrays.asList(result));
+
+                    emptySearchResultImageView.setVisibility(View.INVISIBLE);
+                    mainRecyclerView.setVisibility(View.VISIBLE);
                 }
 
                 return true;
