@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.ashokvarma.bottomnavigation.BadgeItem;
@@ -36,6 +37,7 @@ import chenfeihao.com.fat_measurements_mobile.R;
 import chenfeihao.com.fat_measurements_mobile.app.App;
 import chenfeihao.com.fat_measurements_mobile.constant.AnimalConstant;
 import chenfeihao.com.fat_measurements_mobile.custom.adapter.AnimalDataAdapter;
+import chenfeihao.com.fat_measurements_mobile.http.common.ResponseView;
 import chenfeihao.com.fat_measurements_mobile.http.retrofit.AnimalDataHttpService;
 import chenfeihao.com.fat_measurements_mobile.pojo.bo.MobileUser;
 import chenfeihao.com.fat_measurements_mobile.pojo.dto.AnimalDataDto;
@@ -43,6 +45,8 @@ import chenfeihao.com.fat_measurements_mobile.util.LogUtil;
 import chenfeihao.com.fat_measurements_mobile.util.StringUtil;
 import chenfeihao.com.fat_measurements_mobile.util.UriPathSwitchUtil;
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.HttpException;
+import rx.Subscriber;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
@@ -208,43 +212,62 @@ public class MainActivity extends AppCompatActivity {
 
     private void initUserAnimalData(CountDownLatch countDownLatch) {
         try {
-            animalDataHttpService.getUserAnimalData().subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).subscribe(animalDataDtoResponseView -> {
-                LogUtil.V("获取用户动物数据成功");
+            animalDataHttpService.getUserAnimalData().subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).subscribe(new Subscriber<ResponseView<List<AnimalDataDto>>>() {
+                @Override
+                public void onCompleted() {
 
-                animalDataDtoList.clear();
-                animalDataDtoDraftList.clear();
+                }
 
-                List<AnimalDataDto> requestResult = animalDataDtoResponseView.getResult();
-                /**
-                 * 开始分离完成状态与草稿状态的数据
-                 */
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    animalDataDtoList = requestResult.stream().filter(e -> AnimalConstant.AnimalDraftEnum.NOT_DRAFT.getCode().equals(e.getAnimalDraft())).collect(Collectors.toList());
-                } else {
-                    for (AnimalDataDto animalDataDto : requestResult) {
-                        if (AnimalConstant.AnimalDraftEnum.NOT_DRAFT.getCode().equals(animalDataDto.getAnimalDraft())) {
-                            animalDataDtoList.add(animalDataDto);
-                        }
+                @Override
+                public void onError(Throwable e) {
+                    LogUtil.V("获取用户动物数据失败");
+
+                    if (e instanceof HttpException) {
+                        Toast.makeText(MainActivity.this, "网络异常", Toast.LENGTH_SHORT);
+                    } else {
+                        Toast.makeText(MainActivity.this, "服务器无响应", Toast.LENGTH_SHORT);
                     }
                 }
-                LogUtil.V(JSON.toJSONString(animalDataDtoList));
 
-                requestResult.removeAll(animalDataDtoList);
-                animalDataDtoDraftList = requestResult;
-                LogUtil.V(JSON.toJSONString(animalDataDtoDraftList));
+                @Override
+                public void onNext(ResponseView<List<AnimalDataDto>> animalDataDtoResponseView) {
+                    LogUtil.V("获取用户动物数据成功");
 
-                /**
-                 * 根据用户的限制条件过滤出符合符合条件的数据
-                 */
-                Integer publishTimeSelectItem = publishTimeSortSpinner.getSelectedItemPosition();
-                Integer varietySelectItem = varietyFilterSpinner.getSelectedItemPosition();
+                    animalDataDtoList.clear();
+                    animalDataDtoDraftList.clear();
 
-                animalDataDtoFilterList = dataFilter(animalDataDtoList, publishTimeSelectItem, varietySelectItem);
-                LogUtil.V(JSON.toJSONString(animalDataDtoFilterList));
-                animalDataDtoDraftFilterList = dataFilter(animalDataDtoDraftList, publishTimeSelectItem, varietySelectItem);
-                LogUtil.V(JSON.toJSONString(animalDataDtoDraftFilterList));
+                    List<AnimalDataDto> requestResult = animalDataDtoResponseView.getResult();
+                    /**
+                     * 开始分离完成状态与草稿状态的数据
+                     */
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        animalDataDtoList = requestResult.stream().filter(e -> AnimalConstant.AnimalDraftEnum.NOT_DRAFT.getCode().equals(e.getAnimalDraft())).collect(Collectors.toList());
+                    } else {
+                        for (AnimalDataDto animalDataDto : requestResult) {
+                            if (AnimalConstant.AnimalDraftEnum.NOT_DRAFT.getCode().equals(animalDataDto.getAnimalDraft())) {
+                                animalDataDtoList.add(animalDataDto);
+                            }
+                        }
+                    }
+                    LogUtil.V(JSON.toJSONString(animalDataDtoList));
 
-                countDownLatch.countDown();
+                    requestResult.removeAll(animalDataDtoList);
+                    animalDataDtoDraftList = requestResult;
+                    LogUtil.V(JSON.toJSONString(animalDataDtoDraftList));
+
+                    /**
+                     * 根据用户的限制条件过滤出符合符合条件的数据
+                     */
+                    Integer publishTimeSelectItem = publishTimeSortSpinner.getSelectedItemPosition();
+                    Integer varietySelectItem = varietyFilterSpinner.getSelectedItemPosition();
+
+                    animalDataDtoFilterList = dataFilter(animalDataDtoList, publishTimeSelectItem, varietySelectItem);
+                    LogUtil.V(JSON.toJSONString(animalDataDtoFilterList));
+                    animalDataDtoDraftFilterList = dataFilter(animalDataDtoDraftList, publishTimeSelectItem, varietySelectItem);
+                    LogUtil.V(JSON.toJSONString(animalDataDtoDraftFilterList));
+
+                    countDownLatch.countDown();
+                }
             });
         } catch (Exception e) {
             LogUtil.V("获取用户动物数据失败");

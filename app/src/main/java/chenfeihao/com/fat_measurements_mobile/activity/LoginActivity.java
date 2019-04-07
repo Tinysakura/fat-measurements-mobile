@@ -1,5 +1,6 @@
 package chenfeihao.com.fat_measurements_mobile.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -31,7 +32,9 @@ import chenfeihao.com.fat_measurements_mobile.pojo.bo.MobileUser;
 import chenfeihao.com.fat_measurements_mobile.pojo.dto.UserDto;
 import chenfeihao.com.fat_measurements_mobile.util.LogUtil;
 import chenfeihao.com.fat_measurements_mobile.util.StringUtil;
+import retrofit2.HttpException;
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -144,8 +147,31 @@ public class LoginActivity extends AppCompatActivity {
              */
             if (!accountEditText.hasFocus() && !StringUtil.isEmpty(accountEditText.getText().toString())) {
                 try {
-                    userHttpService.getUserHeadPortrait(accountEditText.getText().toString()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(responseView -> {
-                        Glide.with(this).load((String) responseView.getResult()).placeholder(R.mipmap.default_head_portrait).error(R.mipmap.default_head_portrait).into(headPortraitImageView);
+                    userHttpService.getUserHeadPortrait(accountEditText.getText().toString()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<ResponseView<String>>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @SuppressLint("ShowToast")
+                        @Override
+                        public void onError(Throwable e) {
+                            LogUtil.V("获取用户头像失败");
+                            Toast toast = null;
+
+                            if (e instanceof retrofit2.adapter.rxjava.HttpException || e instanceof HttpException) {
+                                toast = Toast.makeText(LoginActivity.this, "网络异常", Toast.LENGTH_SHORT);
+                            } else {
+                                toast = Toast.makeText(LoginActivity.this, "服务器无响应", Toast.LENGTH_SHORT);
+                            }
+
+                            toast.show();
+                        }
+
+                        @Override
+                        public void onNext(ResponseView<String> responseView) {
+                            Glide.with(LoginActivity.this).load((String) responseView.getResult()).placeholder(R.mipmap.default_head_portrait).error(R.mipmap.default_head_portrait).into(headPortraitImageView);
+                        }
                     });
                 } catch (Exception e) {
                     LogUtil.V("获取用户头像失败");
