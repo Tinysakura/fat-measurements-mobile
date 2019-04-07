@@ -2,7 +2,6 @@ package chenfeihao.com.fat_measurements_mobile.custom.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.icu.util.Measure;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -23,12 +22,8 @@ import chenfeihao.com.fat_measurements_mobile.R;
 import chenfeihao.com.fat_measurements_mobile.activity.MeasureActivity;
 import chenfeihao.com.fat_measurements_mobile.activity.MeasureResultActivity;
 import chenfeihao.com.fat_measurements_mobile.constant.AnimalConstant;
-import chenfeihao.com.fat_measurements_mobile.constant.AnimalConstant.AnimalDraftEnum;
-import chenfeihao.com.fat_measurements_mobile.custom.OssConstant;
 import chenfeihao.com.fat_measurements_mobile.pojo.dto.AnimalDataDto;
 import chenfeihao.com.fat_measurements_mobile.util.OssUtil;
-
-import static chenfeihao.com.fat_measurements_mobile.constant.AnimalConstant.AnimalDraftEnum.*;
 
 /**
  * @Author: chenfeihao@corp.netease.com

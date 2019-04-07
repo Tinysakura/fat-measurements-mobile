@@ -1,6 +1,6 @@
 package chenfeihao.com.fat_measurements_mobile.util;
 
-import chenfeihao.com.fat_measurements_mobile.custom.OssConstant;
+import chenfeihao.com.fat_measurements_mobile.constant.OssConstant;
 
 /**
  * @Author: chenfeihao@corp.netease.com

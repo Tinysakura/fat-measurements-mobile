@@ -1,4 +1,4 @@
-package chenfeihao.com.fat_measurements_mobile.custom;
+package chenfeihao.com.fat_measurements_mobile.constant;
 
 /**
  * oss服务相关常量
