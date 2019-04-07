@@ -47,6 +47,7 @@ import chenfeihao.com.fat_measurements_mobile.util.UriPathSwitchUtil;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.HttpException;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
@@ -221,12 +222,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onError(Throwable e) {
                     LogUtil.V("获取用户动物数据失败");
-
-                    if (e instanceof HttpException) {
-                        Toast.makeText(MainActivity.this, "网络异常", Toast.LENGTH_SHORT);
-                    } else {
-                        Toast.makeText(MainActivity.this, "服务器无响应", Toast.LENGTH_SHORT);
-                    }
+                    countDownLatch.countDown();
                 }
 
                 @Override
