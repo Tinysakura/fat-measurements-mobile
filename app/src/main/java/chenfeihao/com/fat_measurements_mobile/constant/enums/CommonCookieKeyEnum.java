@@ -8,7 +8,7 @@ public enum CommonCookieKeyEnum {
     /**
      * 用户登录id
      */
-    LOGIN_ID("login_id"),;
+    LOGIN_ID("login-id"),;
 
     private String value;
 

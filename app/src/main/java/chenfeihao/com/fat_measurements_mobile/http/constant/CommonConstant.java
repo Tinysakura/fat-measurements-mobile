@@ -8,6 +8,6 @@ public class CommonConstant {
 
     public class ServiceHostConstant {
         // 使用genymotion进行调试时不能使用10.0.0.2需要使用宿主机的内网ip
-        public static final String host = "http://192.168.2.1:8080";
+        public static final String host = "http://fat.measure.com:8080";
     }
 }

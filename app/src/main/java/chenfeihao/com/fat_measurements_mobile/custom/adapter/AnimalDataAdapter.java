@@ -118,6 +118,10 @@ public class AnimalDataAdapter extends RecyclerView.Adapter<AnimalDataAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return animalDataDtoList.size();
+        if (animalDataDtoList != null) {
+            return animalDataDtoList.size();
+        }
+
+        return 0;
     }
 }
